@@ -16,8 +16,11 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        // Do any additional setup after loading the view.
+    }
+    
+
+    @IBAction func didTouchLogout(sender: AnyObject) {
+        PFUser.logOut()
     }
     
     @IBAction func didTouchLoginButton(sender: AnyObject) {
@@ -26,11 +29,18 @@ class LoginViewController: UIViewController {
             if let user = user {
                 if user.isNew {
                     self.returnUserData()
+                    self.performSegueWithIdentifier("toMainPage", sender: nil)
                     print("User signed up and logged in through Facebook!")
                 } else {
+                    self.performSegueWithIdentifier("toMainPage", sender: nil)
                     print("User logged in through Facebook!")
                 }
             } else {
+                let alert:UIAlertView = UIAlertView()
+                alert.title = "Uh Oh!"
+                alert.message = "We see that you cancelled your Facebook login, but we need to know who you are in order to play the game. Would you mind trying again?"
+                alert.addButtonWithTitle("Okay!")
+                alert.show()
                 print("Uh oh. The user cancelled the Facebook login.")
             }
         }

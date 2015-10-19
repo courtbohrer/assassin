@@ -184,17 +184,28 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ukd-lk-krT">
-                                <rect key="frame" x="283" y="246" width="34" height="30"/>
+                                <rect key="frame" x="223" y="131" width="155" height="87"/>
                                 <animations/>
                                 <state key="normal" title="login"/>
                                 <connections>
                                     <action selector="didTouchLoginButton:" destination="iFT-i8-6Nx" eventType="touchUpInside" id="RHT-Y9-OfJ"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zsh-PN-8hk">
+                                <rect key="frame" x="218" y="368" width="165" height="72"/>
+                                <animations/>
+                                <state key="normal" title="logout"/>
+                                <connections>
+                                    <action selector="didTouchLogout:" destination="iFT-i8-6Nx" eventType="touchUpInside" id="ueI-0L-zrd"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="show" identifier="toMainPage" id="0wB-C0-9in"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Qmh-VH-CJO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
