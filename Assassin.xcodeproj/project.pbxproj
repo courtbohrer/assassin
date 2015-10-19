@@ -14,6 +14,11 @@
 		4614ABDE1BD4947D00516477 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4614ABDC1BD4947D00516477 /* LaunchScreen.storyboard */; };
 		4614ABE91BD4947D00516477 /* AssassinTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4614ABE81BD4947D00516477 /* AssassinTests.swift */; };
 		4614ABF41BD4947D00516477 /* AssassinUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4614ABF31BD4947D00516477 /* AssassinUITests.swift */; };
+		466DD8251BD4980E00445880 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 466DD8241BD4980E00445880 /* LoginViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		466DD8271BD498A700445880 /* DashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 466DD8261BD498A700445880 /* DashboardViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		466DD8291BD498C500445880 /* CurrentGameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 466DD8281BD498C500445880 /* CurrentGameViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		466DD82B1BD498E700445880 /* NewGameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 466DD82A1BD498E700445880 /* NewGameViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		466DD82D1BD49B3600445880 /* InvitesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 466DD82C1BD49B3600445880 /* InvitesViewController.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +52,11 @@
 		4614ABEF1BD4947D00516477 /* AssassinUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AssassinUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4614ABF31BD4947D00516477 /* AssassinUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssassinUITests.swift; sourceTree = "<group>"; };
 		4614ABF51BD4947D00516477 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		466DD8241BD4980E00445880 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		466DD8261BD498A700445880 /* DashboardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashboardViewController.swift; sourceTree = "<group>"; };
+		466DD8281BD498C500445880 /* CurrentGameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentGameViewController.swift; sourceTree = "<group>"; };
+		466DD82A1BD498E700445880 /* NewGameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewGameViewController.swift; sourceTree = "<group>"; };
+		466DD82C1BD49B3600445880 /* InvitesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvitesViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +113,11 @@
 				4614ABDA1BD4947D00516477 /* Assets.xcassets */,
 				4614ABDC1BD4947D00516477 /* LaunchScreen.storyboard */,
 				4614ABDF1BD4947D00516477 /* Info.plist */,
+				466DD8241BD4980E00445880 /* LoginViewController.swift */,
+				466DD8261BD498A700445880 /* DashboardViewController.swift */,
+				466DD8281BD498C500445880 /* CurrentGameViewController.swift */,
+				466DD82A1BD498E700445880 /* NewGameViewController.swift */,
+				466DD82C1BD49B3600445880 /* InvitesViewController.swift */,
 			);
 			path = Assassin;
 			sourceTree = "<group>";
@@ -255,8 +270,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				466DD8291BD498C500445880 /* CurrentGameViewController.swift in Sources */,
+				466DD8251BD4980E00445880 /* LoginViewController.swift in Sources */,
 				4614ABD61BD4947D00516477 /* ViewController.swift in Sources */,
 				4614ABD41BD4947D00516477 /* AppDelegate.swift in Sources */,
+				466DD82D1BD49B3600445880 /* InvitesViewController.swift in Sources */,
+				466DD8271BD498A700445880 /* DashboardViewController.swift in Sources */,
+				466DD82B1BD498E700445880 /* NewGameViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -481,6 +501,7 @@
 				4614ABFA1BD4947D00516477 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		4614ABFB1BD4947D00516477 /* Build configuration list for PBXNativeTarget "AssassinTests" */ = {
 			isa = XCConfigurationList;
@@ -489,6 +510,7 @@
 				4614ABFD1BD4947D00516477 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		4614ABFE1BD4947D00516477 /* Build configuration list for PBXNativeTarget "AssassinUITests" */ = {
 			isa = XCConfigurationList;
@@ -497,6 +519,7 @@
 				4614AC001BD4947D00516477 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

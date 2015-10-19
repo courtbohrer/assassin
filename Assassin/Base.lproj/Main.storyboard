@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6211" systemVersion="14A298i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6204"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Dashboard View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="DashboardViewController" customModule="Assassin" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -15,11 +15,128 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S2N-Cg-FJ5">
+                                <rect key="frame" x="219" y="107" width="162" height="58"/>
+                                <animations/>
+                                <state key="normal" title="Current Game"/>
+                                <connections>
+                                    <segue destination="lJb-AJ-Us9" kind="show" id="rKR-Fn-4Q0"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HoJ-fW-5jA">
+                                <rect key="frame" x="219" y="271" width="162" height="58"/>
+                                <animations/>
+                                <state key="normal" title="New Game"/>
+                                <connections>
+                                    <segue destination="Mfs-1P-0lC" kind="show" id="Oo7-0x-pYp"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jCC-vO-kx2">
+                                <rect key="frame" x="219" y="419" width="162" height="58"/>
+                                <animations/>
+                                <state key="normal" title="Invites"/>
+                                <connections>
+                                    <segue destination="etQ-05-5SM" kind="show" id="KVL-Ri-B4Z"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="-589" y="304"/>
+        </scene>
+        <!--Invites View Controller-->
+        <scene sceneID="R78-mT-fmp">
+            <objects>
+                <viewController id="etQ-05-5SM" customClass="InvitesViewController" customModule="Assassin" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="H9s-uO-bz4"/>
+                        <viewControllerLayoutGuide type="bottom" id="ivr-zT-ZHk"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="ljr-qi-j3t">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pQB-9M-u8L" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1333" y="1188"/>
+        </scene>
+        <!--New Game View Controller-->
+        <scene sceneID="elF-aB-D7g">
+            <objects>
+                <viewController id="Mfs-1P-0lC" customClass="NewGameViewController" customModule="Assassin" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Npl-Wv-eU2"/>
+                        <viewControllerLayoutGuide type="bottom" id="rCC-Ku-j2Y"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Yz7-FC-Aos">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pkj-St-fov">
+                                <rect key="frame" x="235" y="484" width="131" height="64"/>
+                                <animations/>
+                                <state key="normal" title="Create"/>
+                                <connections>
+                                    <segue destination="lJb-AJ-Us9" kind="show" id="t91-sv-oI1"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Uhb-P1-6Vf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-589" y="1188"/>
+        </scene>
+        <!--Current Game View Controller-->
+        <scene sceneID="ShW-U6-AVu">
+            <objects>
+                <viewController id="lJb-AJ-Us9" customClass="CurrentGameViewController" customModule="Assassin" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="b3m-Z4-2Wt"/>
+                        <viewControllerLayoutGuide type="bottom" id="nDu-IW-lhV"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Gra-0w-znW">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cMU-AJ-avz" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="217" y="1188"/>
+        </scene>
+        <!--Login View Controller-->
+        <scene sceneID="8kI-TP-Gpx">
+            <objects>
+                <viewController id="iFT-i8-6Nx" customClass="LoginViewController" customModule="Assassin" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="yWI-c9-C1l"/>
+                        <viewControllerLayoutGuide type="bottom" id="AAS-bh-Sej"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="fLx-bH-jLe">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Qmh-VH-CJO" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-603" y="-434"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="t91-sv-oI1"/>
+    </inferredMetricsTieBreakers>
 </document>
