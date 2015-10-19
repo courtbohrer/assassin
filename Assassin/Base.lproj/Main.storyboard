@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="iFT-i8-6Nx">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Dashboard View Controller-->
@@ -85,33 +86,45 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
-                                <variation key="heightClass=regular" fixedFrame="YES">
-                                    <rect key="frame" x="230" y="28" width="140" height="21"/>
-                                </variation>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Game Name:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="23r-o1-BXg" userLabel="gameNameLabel">
                                 <rect key="frame" x="-42" y="-21" width="42" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
-                                <variation key="heightClass=regular" fixedFrame="YES">
-                                    <rect key="frame" x="20" y="85" width="100" height="21"/>
-                                </variation>
                             </label>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="RMO-lJ-nEH" userLabel="gameNameTextBox">
                                 <rect key="frame" x="-25" y="-30" width="97" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
-                                <variation key="heightClass=regular" fixedFrame="YES">
-                                    <rect key="frame" x="128" y="81" width="452" height="30"/>
-                                </variation>
                             </textField>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="RUN-ze-VpC" userLabel="inviteFriendsTableView">
+                                <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="Mfs-1P-0lC" id="9VC-VV-CeV"/>
+                                    <outlet property="delegate" destination="Mfs-1P-0lC" id="jXu-tm-8Xc"/>
+                                </connections>
+                            </tableView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pkj-St-fov" userLabel="createButton">
                                 <rect key="frame" x="235" y="484" width="131" height="64"/>
                                 <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="64" id="BOt-Rt-qPk"/>
+                                    <constraint firstAttribute="width" constant="131" id="zTQ-nw-xqt"/>
+                                </constraints>
                                 <state key="normal" title="Create"/>
-                                <variation key="heightClass=regular" fixedFrame="YES">
-                                    <rect key="frame" x="235" y="501" width="131" height="64"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="BOt-Rt-qPk"/>
+                                        <exclude reference="zTQ-nw-xqt"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=regular">
+                                    <mask key="constraints">
+                                        <include reference="BOt-Rt-qPk"/>
+                                        <include reference="zTQ-nw-xqt"/>
+                                    </mask>
                                 </variation>
                                 <connections>
                                     <action selector="createGameAction:" destination="Mfs-1P-0lC" eventType="touchUpInside" id="xTV-xG-rOu"/>
@@ -121,9 +134,6 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JCa-e0-Sq7" userLabel="cancelButton">
                                 <rect key="frame" x="-23" y="-15" width="46" height="30"/>
                                 <state key="normal" title="Cancel"/>
-                                <variation key="heightClass=regular" fixedFrame="YES">
-                                    <rect key="frame" x="276" y="581" width="48" height="30"/>
-                                </variation>
                                 <connections>
                                     <segue destination="BYZ-38-t0r" kind="show" id="ysa-mH-lGg"/>
                                 </connections>
@@ -131,12 +141,47 @@
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="23r-o1-BXg" firstAttribute="leading" secondItem="RUN-ze-VpC" secondAttribute="leading" id="8HL-Zn-R3Y"/>
+                            <constraint firstItem="RMO-lJ-nEH" firstAttribute="leading" secondItem="23r-o1-BXg" secondAttribute="trailing" constant="8" symbolic="YES" id="F89-3H-PfS"/>
+                            <constraint firstItem="Pkj-St-fov" firstAttribute="centerX" secondItem="RUN-ze-VpC" secondAttribute="centerX" id="Lhk-oQ-j79"/>
+                            <constraint firstItem="Pkj-St-fov" firstAttribute="top" secondItem="RUN-ze-VpC" secondAttribute="bottom" constant="8" symbolic="YES" id="Lxp-MI-jAs"/>
+                            <constraint firstItem="RMO-lJ-nEH" firstAttribute="trailing" secondItem="Yz7-FC-Aos" secondAttribute="trailingMargin" id="Ogy-Tm-VtW"/>
+                            <constraint firstItem="23r-o1-BXg" firstAttribute="centerY" secondItem="RMO-lJ-nEH" secondAttribute="centerY" id="Q0K-b9-sco"/>
+                            <constraint firstItem="rCC-Ku-j2Y" firstAttribute="top" secondItem="JCa-e0-Sq7" secondAttribute="bottom" constant="43" id="Vcr-Jw-48I"/>
+                            <constraint firstItem="RUN-ze-VpC" firstAttribute="centerX" secondItem="sLQ-1r-Ydp" secondAttribute="centerX" id="Y4U-cS-p9S"/>
+                            <constraint firstItem="JCa-e0-Sq7" firstAttribute="top" secondItem="Pkj-St-fov" secondAttribute="bottom" constant="1" id="dnD-Uq-uLA"/>
+                            <constraint firstItem="RUN-ze-VpC" firstAttribute="trailing" secondItem="RMO-lJ-nEH" secondAttribute="trailing" id="eba-4H-i2d"/>
+                            <constraint firstItem="RMO-lJ-nEH" firstAttribute="top" secondItem="sLQ-1r-Ydp" secondAttribute="bottom" constant="32" id="kKJ-wO-40D"/>
+                            <constraint firstItem="RUN-ze-VpC" firstAttribute="top" secondItem="RMO-lJ-nEH" secondAttribute="bottom" constant="24" id="oXZ-Hg-1hv"/>
+                            <constraint firstItem="sLQ-1r-Ydp" firstAttribute="top" secondItem="Npl-Wv-eU2" secondAttribute="bottom" constant="8" symbolic="YES" id="tIq-zn-Blk"/>
+                            <constraint firstItem="Pkj-St-fov" firstAttribute="centerX" secondItem="JCa-e0-Sq7" secondAttribute="centerX" id="tMN-4S-JUJ"/>
+                            <constraint firstItem="23r-o1-BXg" firstAttribute="leading" secondItem="Yz7-FC-Aos" secondAttribute="leadingMargin" id="uaT-6K-eH4"/>
+                        </constraints>
                         <variation key="default">
                             <mask key="subviews">
                                 <exclude reference="sLQ-1r-Ydp"/>
                                 <exclude reference="23r-o1-BXg"/>
                                 <exclude reference="RMO-lJ-nEH"/>
+                                <exclude reference="RUN-ze-VpC"/>
                                 <exclude reference="JCa-e0-Sq7"/>
+                            </mask>
+                            <mask key="constraints">
+                                <exclude reference="8HL-Zn-R3Y"/>
+                                <exclude reference="Q0K-b9-sco"/>
+                                <exclude reference="uaT-6K-eH4"/>
+                                <exclude reference="Y4U-cS-p9S"/>
+                                <exclude reference="eba-4H-i2d"/>
+                                <exclude reference="oXZ-Hg-1hv"/>
+                                <exclude reference="F89-3H-PfS"/>
+                                <exclude reference="Ogy-Tm-VtW"/>
+                                <exclude reference="kKJ-wO-40D"/>
+                                <exclude reference="tIq-zn-Blk"/>
+                                <exclude reference="Lhk-oQ-j79"/>
+                                <exclude reference="Lxp-MI-jAs"/>
+                                <exclude reference="tMN-4S-JUJ"/>
+                                <exclude reference="dnD-Uq-uLA"/>
+                                <exclude reference="Vcr-Jw-48I"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular">
@@ -144,12 +189,31 @@
                                 <include reference="sLQ-1r-Ydp"/>
                                 <include reference="23r-o1-BXg"/>
                                 <include reference="RMO-lJ-nEH"/>
+                                <include reference="RUN-ze-VpC"/>
                                 <include reference="JCa-e0-Sq7"/>
+                            </mask>
+                            <mask key="constraints">
+                                <include reference="8HL-Zn-R3Y"/>
+                                <include reference="Q0K-b9-sco"/>
+                                <include reference="uaT-6K-eH4"/>
+                                <include reference="Y4U-cS-p9S"/>
+                                <include reference="eba-4H-i2d"/>
+                                <include reference="oXZ-Hg-1hv"/>
+                                <include reference="F89-3H-PfS"/>
+                                <include reference="Ogy-Tm-VtW"/>
+                                <include reference="kKJ-wO-40D"/>
+                                <include reference="tIq-zn-Blk"/>
+                                <include reference="Lhk-oQ-j79"/>
+                                <include reference="Lxp-MI-jAs"/>
+                                <include reference="tMN-4S-JUJ"/>
+                                <include reference="dnD-Uq-uLA"/>
+                                <include reference="Vcr-Jw-48I"/>
                             </mask>
                         </variation>
                     </view>
                     <connections>
                         <outlet property="gameNameTextField" destination="RMO-lJ-nEH" id="nWs-pd-b6j"/>
+                        <outlet property="inviteFriendsTableView" destination="RUN-ze-VpC" id="QFM-8r-X2n"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Uhb-P1-6Vf" userLabel="First Responder" sceneMemberID="firstResponder"/>
