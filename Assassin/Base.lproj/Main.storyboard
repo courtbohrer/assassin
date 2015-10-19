@@ -114,6 +114,7 @@
                                     <rect key="frame" x="235" y="501" width="131" height="64"/>
                                 </variation>
                                 <connections>
+                                    <action selector="createGameAction:" destination="Mfs-1P-0lC" eventType="touchUpInside" id="xTV-xG-rOu"/>
                                     <segue destination="lJb-AJ-Us9" kind="show" id="t91-sv-oI1"/>
                                 </connections>
                             </button>
@@ -147,6 +148,9 @@
                             </mask>
                         </variation>
                     </view>
+                    <connections>
+                        <outlet property="gameNameTextField" destination="RMO-lJ-nEH" id="nWs-pd-b6j"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Uhb-P1-6Vf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -213,6 +217,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
+        <segue reference="ysa-mH-lGg"/>
         <segue reference="t91-sv-oI1"/>
     </inferredMetricsTieBreakers>
 </document>
