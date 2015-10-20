@@ -18,7 +18,6 @@ class LoginViewController: UIViewController {
         
     }
     
-
     @IBAction func didTouchLogout(sender: AnyObject) {
         PFUser.logOut()
     }
@@ -67,6 +66,16 @@ class LoginViewController: UIViewController {
                 if ((currentUser) != nil){
                     currentUser?.setValue(result.valueForKey("name"), forKey: "Name")
                     currentUser?.setValue(result.objectForKey("id"), forKey: "FacebookID")
+                    
+                    /*
+                    // i'm trying to add 'currentGames' array of strings for each user
+                    // but this doesn't seem to do anything
+                    
+                    let currentGames:[String] = []
+                    currentUser?.setObject(currentGames, forKey: "currentGames")
+                    
+                    */
+
                     //currentUser?.setValue(result.objectForKey("friends"), forKey: "Friends")
                     
                 }
@@ -75,7 +84,6 @@ class LoginViewController: UIViewController {
                 
             }
         })
-        
         
         //get friends list and save
         let fbRequest = FBSDKGraphRequest(graphPath:"/me/friends", parameters: nil)

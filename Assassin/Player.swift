@@ -8,11 +8,11 @@
 
 class Player: PFUser {
     
-    var firstName:String
-    var lastName:String
-    var friends:String
-    var invites:[String]
+    var name:String
+    var friends:[String]
+    var invitedGames:[String]
     var currentGames:[String]
+    var target:String
     
     override class func initialize() {
         struct Static {
@@ -25,11 +25,11 @@ class Player: PFUser {
     
     override init(){
         
-        firstName = ""
-        lastName = ""
-        friends = ""
-        invites = []
+        name = ""
+        friends = []
+        invitedGames = []
         currentGames = []
+        target = ""
         
         super.init()
         

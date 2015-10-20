@@ -11,9 +11,7 @@ class NewGameViewController: UIViewController, UITextFieldDelegate, UITableViewD
     @IBOutlet weak var gameNameTextField: UITextField!
     @IBOutlet weak var friendPickerTableView: UITableView!
     
-    // private var invitedPlayers:[String] = []
-    // private var game:Game = Game(gameName: "", invitedPlayers: [], activePlayers: [PFUser.currentUser()?.objectForKey("id") as! String])
-    var game:Game = Game()
+    private let game:Game = Game()
     private let friends = PFUser.currentUser()!.objectForKey("Friends") as! NSArray
     
     override func viewDidLoad() {
@@ -53,11 +51,33 @@ class NewGameViewController: UIViewController, UITextFieldDelegate, UITableViewD
 
     @IBAction func createGameAction(sender: AnyObject) {
         
+        // create the game and save
+        // crashes when i try to append current user to activePlayers
         self.game.setValue(self.gameNameTextField.text!, forKey: "Name")
         self.game.setObject(self.game.invitedPlayers, forKey: "invitedPlayers")
         self.game.setObject(self.game.activePlayers, forKey: "activePlayers")
         
         self.game.saveInBackground()
+        
+        /*
+        
+        // update current user's current games and save
+        // but crashes
+        
+        let currentUser:PFUser = PFUser.currentUser()!
+        var currentGames:[String] = currentUser.objectForKey("currentGames") as! [String]
+
+        currentGames.append(self.game.objectForKey("objectId") as! String)
+
+        currentUser.saveInBackground()
+        
+        */
+        
+        // we need to notify all invitees they've been invited
+        // we need to update all invitees' invitedGames list to this game id
+        // i tried grabbing the game object id above, not able to know if that works
+        // we need to have the current game controller be some kind of waiting for room till game starts/drops
+        // game needs to start when invite list is empty
         
     }
 
