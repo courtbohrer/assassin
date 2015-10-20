@@ -20,6 +20,48 @@
                ReferencedContainer = "container:../../../../u/quanvo/Documents/assassin/Assassin.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "4614ABE31BD4947D00516477"
+               BuildableName = "AssassinTests.xctest"
+               BlueprintName = "AssassinTests"
+               ReferencedContainer = "container:../../../../u/quanvo/Documents/assassin/Assassin.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "4614ABEE1BD4947D00516477"
+               BuildableName = "AssassinUITests.xctest"
+               BlueprintName = "AssassinUITests"
+               ReferencedContainer = "container:../../../../u/quanvo/Documents/assassin/Assassin.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "4614ABCF1BD4947D00516477"
+               BuildableName = "Assassin.app"
+               BlueprintName = "Assassin"
+               ReferencedContainer = "container:../../../u/quanvo/assassin/Assassin.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -32,20 +74,20 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "4614ABE31BD4947D00516477"
-               BuildableName = "AssassinTests.xctest"
-               BlueprintName = "AssassinTests"
-               ReferencedContainer = "container:../../../../u/quanvo/Documents/assassin/Assassin.xcodeproj">
+               BlueprintIdentifier = "4614ABEE1BD4947D00516477"
+               BuildableName = "AssassinUITests.xctest"
+               BlueprintName = "AssassinUITests"
+               ReferencedContainer = "container:../../../u/quanvo/assassin/Assassin.xcodeproj">
             </BuildableReference>
          </TestableReference>
          <TestableReference
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "4614ABEE1BD4947D00516477"
-               BuildableName = "AssassinUITests.xctest"
-               BlueprintName = "AssassinUITests"
-               ReferencedContainer = "container:../../../../u/quanvo/Documents/assassin/Assassin.xcodeproj">
+               BlueprintIdentifier = "4614ABE31BD4947D00516477"
+               BuildableName = "AssassinTests.xctest"
+               BlueprintName = "AssassinTests"
+               ReferencedContainer = "container:../../../u/quanvo/assassin/Assassin.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -62,7 +104,7 @@
       </AdditionalOptions>
    </TestAction>
    <LaunchAction
-      buildConfiguration = "Debug"
+      buildConfiguration = "Release"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
@@ -78,7 +120,7 @@
             BlueprintIdentifier = "4614ABCF1BD4947D00516477"
             BuildableName = "Assassin.app"
             BlueprintName = "Assassin"
-            ReferencedContainer = "container:../../../../u/quanvo/Documents/assassin/Assassin.xcodeproj">
+            ReferencedContainer = "container:../../../u/quanvo/assassin/Assassin.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
