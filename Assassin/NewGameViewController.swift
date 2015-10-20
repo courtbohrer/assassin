@@ -11,9 +11,10 @@ class NewGameViewController: UIViewController, UITextFieldDelegate, UITableViewD
     @IBOutlet weak var gameNameTextField: UITextField!
     @IBOutlet weak var friendPickerTableView: UITableView!
     
-    private var invitedPlayers:[PFUser] = []
-    
-    private var friends = PFUser.currentUser()!.objectForKey("Friends") as! NSArray
+    // private var invitedPlayers:[String] = []
+    // private var game:Game = Game(gameName: "", invitedPlayers: [], activePlayers: [PFUser.currentUser()?.objectForKey("id") as! String])
+    var game:Game = Game()
+    private let friends = PFUser.currentUser()!.objectForKey("Friends") as! NSArray
     
     override func viewDidLoad() {
         
@@ -39,24 +40,24 @@ class NewGameViewController: UIViewController, UITextFieldDelegate, UITableViewD
         return cell
     }
     
-    /*
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         let index:Int = indexPath.row
-        let friend:PFUser =
+        let friendId:String = self.friends[index].objectForKey("id") as! String
+        
+        if !self.game.invitedPlayers.contains(friendId) {
+            self.game.invitedPlayers.append(friendId)
+        }
         
     }
-    */
 
     @IBAction func createGameAction(sender: AnyObject) {
         
-        let game:Game = Game(gameName: gameNameTextField.text!, invitedPlayers: [], activePlayers: [PFUser.currentUser()!])
+        self.game.setValue(self.gameNameTextField.text!, forKey: "Name")
+        self.game.setObject(self.game.invitedPlayers, forKey: "invitedPlayers")
+        self.game.setObject(self.game.activePlayers, forKey: "activePlayers")
         
-        game.setValue(gameNameTextField.text!, forKey: "Name")
-        game.setObject(invitedPlayers, forKey: "invitedPlayers")
-        game.setObject(game.activePlayers, forKey: "activePlayers")
-        
-        game.saveInBackground()
+        self.game.saveInBackground()
         
     }
 
