@@ -113,7 +113,6 @@ class LoginViewController: UIViewController, UIPopoverPresentationControllerDele
                 currentUser?.setValue(result["data"] as? [NSDictionary], forKey: "Friends");
                 currentUser?.saveInBackground()
                 
-                
             } else {
                 print("Error Getting Friends \(error)");
             }
