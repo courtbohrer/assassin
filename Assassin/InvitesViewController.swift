@@ -65,10 +65,12 @@ class InvitesViewController: UIViewController, UITableViewDataSource, UITableVie
         let player = PFUser.currentUser()
         let playerID = player!.objectForKey("FacebookID")!
         let playerObject = Player(playerID: playerID as! String, targetID: "")
-        var activePlayers:[Player] = game.objectForKey("activePlayers") as! [Player]
+        // var activePlayers:[Player] = game.objectForKey("activePlayers") as! [Player]
         
-        activePlayers.append(playerObject)
-        game.setObject(activePlayers, forKey: "activePlayers")
+        // activePlayers.append(playerObject)
+        // game.setObject(activePlayers, forKey: "activePlayers")
+        
+        // game.objectForKey("activePlayers")?.addObject(playerObject)
 
         game.objectForKey("invitedPlayers")?.removeObject(playerID)
         

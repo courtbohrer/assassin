@@ -10,7 +10,7 @@ class Game: PFObject, PFSubclassing {
     
     private var _gameName:String = ""
     var invitedPlayers:[String] = []
-    var activePlayers:[Player] = []
+    var activePlayers:[PFObject] = []
     
     var gameName:String {
         get {
@@ -34,7 +34,7 @@ class Game: PFObject, PFSubclassing {
         return "Game"
     }
     
-    init(gameName:String, invitedPlayers:[String], activePlayers:[Player]) {
+    init(gameName:String, invitedPlayers:[String], activePlayers:[PFObject]) {
         super.init()
         self.gameName = gameName
         self.invitedPlayers = invitedPlayers
