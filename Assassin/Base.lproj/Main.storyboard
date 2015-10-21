@@ -63,6 +63,9 @@
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
+                    <connections>
+                        <outlet property="invitesButton" destination="jCC-vO-kx2" id="nv3-jf-ca8"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
@@ -277,6 +280,25 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Uhb-P1-6Vf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-589.5" y="1188"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="7oU-ag-ulu">
+            <objects>
+                <viewController id="TtZ-mj-lPr" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="g7w-FV-7hF"/>
+                        <viewControllerLayoutGuide type="bottom" id="yPz-hZ-T85"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="CiR-ix-Ewm">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1OC-Hp-LmY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="223" y="297"/>
         </scene>
         <!--Current Game View Controller-->
         <scene sceneID="ShW-U6-AVu">

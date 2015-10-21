@@ -10,6 +10,8 @@ import UIKit
 
 class DashboardViewController: UIViewController, UIPopoverControllerDelegate {
 
+    @IBOutlet weak var invitesButton: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -27,6 +29,29 @@ class DashboardViewController: UIViewController, UIPopoverControllerDelegate {
             let vc = storyboard.instantiateViewControllerWithIdentifier("LoginViewController") as! LoginViewController
             vc.modalPresentationStyle = UIModalPresentationStyle.Popover
             presentViewController(vc, animated: true, completion:nil)
+        } else {
+            let myFBID:String = PFUser.currentUser()?.objectForKey("FacebookID") as! String
+            let query = PFQuery(className:"Game")
+            query.whereKey("invitedPlayers", containsAllObjectsInArray:[myFBID])
+            query.findObjectsInBackgroundWithBlock {
+                (objects: [PFObject]?, error: NSError?) -> Void in
+                
+                if error == nil {
+                    // The find succeeded.
+                    print("Successfully retrieved \(objects!.count) scores.")
+                    // Do something with the found objects
+                    if objects?.isEmpty == false{
+                        self.invitesButton.backgroundColor = UIColor.redColor()
+                        print("has invites")
+                    } else {
+                       self.invitesButton.backgroundColor = UIColor.whiteColor()
+                    }
+                } else {
+                    // Log details of the failure
+                    //print("Error: \(error!) \(error!.userInfo!)")
+                    print("query error")
+                }
+            }
         }
     }
     
