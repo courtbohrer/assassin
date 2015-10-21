@@ -9,8 +9,12 @@
 import ParseFacebookUtilsV4
 import UIKit
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, UIPopoverPresentationControllerDelegate {
 
+    @IBOutlet weak var loginButton: UIButton!
+    @IBOutlet weak var logoutButton: UIButton!
+    
+    
     let permissions = ["public_profile", "user_friends"]
     
     override func viewDidLoad() {
@@ -18,8 +22,20 @@ class LoginViewController: UIViewController {
         
     }
     
+    override func viewDidAppear(animated: Bool) {
+        if(PFUser.currentUser() == nil){
+            logoutButton.hidden = true;
+            loginButton.hidden = false;
+        } else {
+            loginButton.hidden = true;
+            logoutButton.hidden = false;
+        }
+    }
+    
     @IBAction func didTouchLogout(sender: AnyObject) {
         PFUser.logOut()
+        logoutButton.hidden = true;
+        loginButton.hidden = false;
     }
     
     @IBAction func didTouchLoginButton(sender: AnyObject) {
@@ -28,10 +44,12 @@ class LoginViewController: UIViewController {
             if let user = user {
                 if user.isNew {
                     self.returnUserData()
-                    self.performSegueWithIdentifier("toMainPage", sender: nil)
+                    self.dismiss()
+                    //self.performSegueWithIdentifier("toMainPage", sender: nil)
                     print("User signed up and logged in through Facebook!")
                 } else {
-                    self.performSegueWithIdentifier("toMainPage", sender: nil)
+                    self.dismiss()
+                    //self.performSegueWithIdentifier("toMainPage", sender: nil)
                     print("User logged in through Facebook!")
                 }
             } else {
@@ -100,6 +118,10 @@ class LoginViewController: UIViewController {
                 print("Error Getting Friends \(error)");
             }
         }
+    }
+    
+    func dismiss() {
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
 
     override func didReceiveMemoryWarning() {
