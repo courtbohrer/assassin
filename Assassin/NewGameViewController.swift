@@ -51,53 +51,23 @@ class NewGameViewController: UIViewController, UITextFieldDelegate, UITableViewD
     // create game
     @IBAction func createGameAction(sender: AnyObject) {
         
-        // create the game and save
-        // crashes when i try to append current user to activePlayers
+        // create the game
         self.game.setValue(self.gameNameTextField.text!, forKey: "Name")
         self.game.setObject(self.game.invitedPlayers, forKey: "invitedPlayers")
-        self.game.setObject(self.game.activePlayers, forKey: "activePlayers")
         
-        self.game.saveInBackgroundWithBlock {
-            (success: Bool, error: NSError?) -> Void in
-            if (success) {
-                // The object has been saved.
-                let gameId:String = self.game.objectId!
-                for player in self.game.invitedPlayers{
-                    let query:PFQuery = PFUser.query()!
-                    query.whereKey("FacebookID", equalTo: player)
-                    query.getFirstObjectInBackgroundWithBlock {
-                        (object: PFObject?, error: NSError?) -> Void in
-                        if error != nil || object == nil {
-                            print("The getFirstObject request failed.")
-                        } else {
-                            // The find succeeded.
-                            print("Successfully retrieved the object.")
-                            
-                            // var invitedGames:[String] = object!.objectForKey("invitedGames") as! [String]
-                            // invitedGames.append("dummy arrray")
-                            // object!.setObject(invitedGames, forKey: "invitedGames")
-                            // object["invitedGames"] = invitedGames
-                            // object!.setValue("new courtney", forKey: "Name")
-                            // object!.addUniqueObjectsFromArray(["hi"], forKey: "invitedGames")
-                            // object!.saveInBackground()
-                            
-                            object!.saveInBackgroundWithBlock {
-                                (success: Bool, error: NSError?) -> Void in
-                                if (success) {
-                                    // The object has been saved.
-                                    print("Object saved")
-                                } else {
-                                    // There was a problem, check error.description
-                                    print("Object not saved")
-                                }
-                            }
-                        }
-                    }
-                }
-            } else {
-                // There was a problem, check error.description
-            }
-        }
+        //create player object of self and add to game
+        let player = PFUser.currentUser()
+        let playerID = player!.objectForKey("FacebookID")!
+        let playerObject = Player(playerID: playerID as! String, targetID: "")
+        playerObject.setValue(playerID, forKey: "FacebookID")
+        playerObject.saveInBackground()
+        let activePlayers = [playerObject]
+        self.game.setObject(activePlayers, forKey: "activePlayers")
+
+        //save game
+        self.game.saveInBackground()
+        
+        
         
         /*
         

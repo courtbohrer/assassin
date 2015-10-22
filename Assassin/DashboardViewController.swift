@@ -69,6 +69,13 @@ class DashboardViewController: UIViewController, UIPopoverControllerDelegate {
         
     }
 
+    @IBAction func didTouchInvitesButton(sender: AnyObject) {
+        let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewControllerWithIdentifier("InvitesViewController") as! InvitesViewController
+        vc.modalPresentationStyle = UIModalPresentationStyle.Popover
+        presentViewController(vc, animated: true, completion:nil)
+        
+    }
     /*
     // MARK: - Navigation
 

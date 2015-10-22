@@ -8,7 +8,7 @@
 
 import UIKit
 
-class InvitesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class InvitesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIPopoverPresentationControllerDelegate {
     
     @IBOutlet weak var invitesTableView: UITableView!
     var invitedGames:[PFObject] = []
@@ -59,22 +59,69 @@ class InvitesViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
+        //get game
         let index:Int = indexPath.row
         let game = self.invitedGames[index]
+       
+        //create player object
         let player = PFUser.currentUser()
         let playerID = player!.objectForKey("FacebookID")!
         let playerObject = Player(playerID: playerID as! String, targetID: "")
-        // var activePlayers:[Player] = game.objectForKey("activePlayers") as! [Player]
+        playerObject.setValue(playerID, forKey: "FacebookID")
+        playerObject.saveInBackground()
         
-        // activePlayers.append(playerObject)
-        // game.setObject(activePlayers, forKey: "activePlayers")
+        //add player object
+        game.objectForKey("activePlayers")?.addObject(playerObject)
         
-        // game.objectForKey("activePlayers")?.addObject(playerObject)
-
+        //add invited players
         game.objectForKey("invitedPlayers")?.removeObject(playerID)
+        if game.objectForKey("invitedPlayers")?.count == 0 {
+            assignTargets(game)
+        }
         
-        game.saveInBackground()
+        //save game
+        game.saveInBackgroundWithBlock {
+            (success, error) -> Void in
+            if (success) {
+                self.assignTargets(game)
+            } else {
+                print("error saving game")
+            }
+        }
+        
+        //notify player that game was created
+        let alert:UIAlertView = UIAlertView()
+        alert.title = "You have been added to the game!"
+        alert.addButtonWithTitle("Okay!")
+        alert.show()
+        
+        //got to game screen
+        self.performSegueWithIdentifier("showNewGame", sender: nil)
+        
+    }
+    
+    func assignTargets(game:PFObject){
+        // need to finish implementing
+        var newActive:[Player] = []
+        var oldActive:[Player] = game.objectForKey("activePlayers") as! [Player]
+        var size = oldActive.count
+        while (size > 0){
+            let rand:Int = Int(arc4random_uniform(UInt32(size - 1)))
+            //newActive.append(oldActive[rand])
+            //oldActive.removeAtIndex(rand)
+            //size--
+        }
+        
+        size = newActive.count
+        for i in 0...size - 2 {
+            //let target = newActive[i+1];
+            //newActive[i].setValue(target.playerID, forKey: "target")
+            //newActive[i].saveInBackground()
+        }
+        //newActive[size - 1].setValue(newActive[0].playerID, forKey: "target")
+        //newActive[size - 1].saveInBackground()
+        
+        print("Assigning targets")
     }
     
     override func didReceiveMemoryWarning() {
@@ -82,5 +129,6 @@ class InvitesViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     @IBAction func backButton(sender: AnyObject) {
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
 }
