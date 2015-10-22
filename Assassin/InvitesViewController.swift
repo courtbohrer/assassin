@@ -68,7 +68,7 @@ class InvitesViewController: UIViewController, UITableViewDataSource, UITableVie
         let playerID = player!.objectForKey("FacebookID")!
         let playerObject = Player(playerID: playerID as! String, targetID: "")
         playerObject.setValue(playerID, forKey: "FacebookID")
-        playerObject.saveInBackground()
+        playerObject.saveInBackground() // should probably do this in block
         
         //add player object
         game.objectForKey("activePlayers")?.addObject(playerObject)
@@ -76,14 +76,14 @@ class InvitesViewController: UIViewController, UITableViewDataSource, UITableVie
         //add invited players
         game.objectForKey("invitedPlayers")?.removeObject(playerID)
         if game.objectForKey("invitedPlayers")?.count == 0 {
-            assignTargets(game)
+            assignTargets(game) // i think we're calling this twice
         }
         
         //save game
         game.saveInBackgroundWithBlock {
             (success, error) -> Void in
             if (success) {
-                self.assignTargets(game)
+                self.assignTargets(game) // i think we're calling this twice
             } else {
                 print("error saving game")
             }
