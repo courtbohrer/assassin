@@ -59,13 +59,24 @@ class NewGameViewController: UIViewController, UITextFieldDelegate, UITableViewD
         let player = PFUser.currentUser()
         let playerID = player!.objectForKey("FacebookID")!
         let playerObject = Player(playerID: playerID as! String, targetID: "")
+        playerObject.setValue(player?.objectForKey("Name"), forKey: "Name")
         playerObject.setValue(playerID, forKey: "FacebookID")
         playerObject.saveInBackground()
         let activePlayers = [playerObject]
         self.game.setObject(activePlayers, forKey: "activePlayers")
+        self.game.setValue(false, forKey: "activeGame")
 
         //save game
-        self.game.saveInBackground()
+        game.saveInBackgroundWithBlock {
+            (success, error) -> Void in
+            if (success) {
+                PFUser.currentUser()?.setObject(self.game, forKey: "currentGame")
+                PFUser.currentUser()?.setObject(playerObject, forKey: "player")
+                PFUser.currentUser()?.saveInBackground()
+            } else {
+                print("error saving game")
+            }
+        }
         
         
         

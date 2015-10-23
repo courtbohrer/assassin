@@ -30,7 +30,7 @@ class DashboardViewController: UIViewController, UIPopoverControllerDelegate {
             vc.modalPresentationStyle = UIModalPresentationStyle.Popover
             presentViewController(vc, animated: true, completion:nil)
         } else {
-            let myFBID:String = PFUser.currentUser()?.objectForKey("FacebookID") as! String
+            let myFBID:String =  PFUser.currentUser()?.objectForKey("FacebookID") as! String
             let query = PFQuery(className:"Game")
             query.whereKey("invitedPlayers", containsAllObjectsInArray:[myFBID])
             query.findObjectsInBackgroundWithBlock {
@@ -75,6 +75,30 @@ class DashboardViewController: UIViewController, UIPopoverControllerDelegate {
         vc.modalPresentationStyle = UIModalPresentationStyle.Popover
         presentViewController(vc, animated: true, completion:nil)
         
+    }
+    
+    @IBAction func didTouchCurrentGameButton(sender: AnyObject) {
+        if(PFUser.currentUser()?.objectForKey("currentGame") == nil){
+            let alert:UIAlertView = UIAlertView()
+            alert.title = "No Current Games"
+            alert.message = "It looks like you don't have any games yet. Feel free to start one by clicking New Game."
+            alert.addButtonWithTitle("Okay!")
+            alert.show()
+
+        } else {
+            performSegueWithIdentifier("goToCurrentGame", sender: nil)
+        }
+    }
+    @IBAction func didTouchNewGameButton(sender: AnyObject) {
+        if(PFUser.currentUser()?.objectForKey("currentGame") != nil){
+            let alert:UIAlertView = UIAlertView()
+            alert.title = "Existing Game"
+            alert.message = "It looks like you are already in a game. In our current version you can only be in one game at a time."
+            alert.addButtonWithTitle("Okay!")
+            alert.show()
+        } else {
+            performSegueWithIdentifier("goToNewGame", sender: nil)
+        }
     }
     /*
     // MARK: - Navigation

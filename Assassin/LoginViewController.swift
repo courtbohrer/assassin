@@ -45,16 +45,18 @@ class LoginViewController: UIViewController, UIPopoverPresentationControllerDele
                 if user.isNew {
                     self.returnUserData()
                     self.dismiss()
+                    self.getFBFriends()
                     //self.performSegueWithIdentifier("toMainPage", sender: nil)
                     print("User signed up and logged in through Facebook!")
                 } else {
                     self.dismiss()
+                    self.getFBFriends()
                     //self.performSegueWithIdentifier("toMainPage", sender: nil)
                     print("User logged in through Facebook!")
                 }
             } else {
                 let alert:UIAlertView = UIAlertView()
-                alert.title = "Uh Oh!"
+                alert.title = "Oops!"
                 alert.message = "We see that you cancelled your Facebook login, but we need to know who you are in order to play the game. Would you mind trying again?"
                 alert.addButtonWithTitle("Okay!")
                 alert.show()
@@ -104,6 +106,11 @@ class LoginViewController: UIViewController, UIPopoverPresentationControllerDele
         })
         
         //get friends list and save
+        
+    }
+    
+    func getFBFriends(){
+        let currentUser = PFUser.currentUser()
         let fbRequest = FBSDKGraphRequest(graphPath:"/me/friends", parameters: nil)
         fbRequest.startWithCompletionHandler { (connection : FBSDKGraphRequestConnection!, result : AnyObject!, error : NSError!) -> Void in
             

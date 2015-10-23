@@ -26,7 +26,7 @@
                                     <rect key="frame" x="119" y="105" width="162" height="58"/>
                                 </variation>
                                 <connections>
-                                    <segue destination="lJb-AJ-Us9" kind="show" id="rKR-Fn-4Q0"/>
+                                    <action selector="didTouchCurrentGameButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="nf2-k5-wdc"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HoJ-fW-5jA">
@@ -37,7 +37,7 @@
                                     <rect key="frame" x="119" y="260" width="162" height="58"/>
                                 </variation>
                                 <connections>
-                                    <segue destination="Mfs-1P-0lC" kind="show" id="Oo7-0x-pYp"/>
+                                    <action selector="didTouchNewGameButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="5By-p9-G3w"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jCC-vO-kx2">
@@ -65,6 +65,8 @@
                     </view>
                     <connections>
                         <outlet property="invitesButton" destination="jCC-vO-kx2" id="nv3-jf-ca8"/>
+                        <segue destination="lJb-AJ-Us9" kind="show" identifier="goToCurrentGame" id="sVW-ZZ-ayG"/>
+                        <segue destination="Mfs-1P-0lC" kind="show" identifier="goToNewGame" id="olv-tL-XeT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -341,13 +343,57 @@
                     <view key="view" contentMode="scaleToFill" id="Gra-0w-znW">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zSl-l9-5Iy">
+                                <rect key="frame" x="82" y="28" width="131" height="30"/>
+                                <animations/>
+                                <state key="normal" title="Back to Dashboard"/>
+                                <connections>
+                                    <segue destination="BYZ-38-t0r" kind="show" id="fq6-5l-YBa"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Name of Game" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ztz-Vn-Kkj">
+                                <rect key="frame" x="164" y="94" width="272" height="21"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Name of Target" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bkn-dK-Ri9">
+                                <rect key="frame" x="242" y="194" width="272" height="21"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Target:" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WoT-2J-TNY">
+                                <rect key="frame" x="164" y="194" width="64" height="21"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Yd-Y1-ot1">
+                                <rect key="frame" x="229" y="335" width="143" height="81"/>
+                                <animations/>
+                                <state key="normal" title="Kill"/>
+                                <connections>
+                                    <action selector="didTouchKillButton:" destination="lJb-AJ-Us9" eventType="touchUpInside" id="9m2-eg-CQ2"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <connections>
+                        <outlet property="killButton" destination="1Yd-Y1-ot1" id="bgd-Y4-Q7C"/>
+                        <outlet property="nameOfGameLabel" destination="ztz-Vn-Kkj" id="4Kz-4W-yBv"/>
+                        <outlet property="nameOfTargetLabel" destination="bkn-dK-Ri9" id="nJh-tC-LfB"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cMU-AJ-avz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="217" y="1188"/>
+            <point key="canvasLocation" x="153" y="1188"/>
         </scene>
         <!--Login View Controller-->
         <scene sceneID="8kI-TP-Gpx">
@@ -384,7 +430,7 @@
                                     <action selector="didTouchLogout:" destination="iFT-i8-6Nx" eventType="touchUpInside" id="ueI-0L-zrd"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ukd-lk-krT">
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ukd-lk-krT">
                                 <rect key="frame" x="223" y="131" width="155" height="87"/>
                                 <animations/>
                                 <constraints>
@@ -426,8 +472,6 @@
                             </constraint>
                             <constraint firstItem="Ukd-lk-krT" firstAttribute="centerX" secondItem="Zsh-PN-8hk" secondAttribute="centerX" id="Ljb-dD-UMe"/>
                             <constraint firstItem="AAS-bh-Sej" firstAttribute="top" secondItem="Zsh-PN-8hk" secondAttribute="bottom" constant="160" id="VAJ-Av-2hd"/>
-                            <constraint firstItem="Ukd-lk-krT" firstAttribute="top" secondItem="yWI-c9-C1l" secondAttribute="bottom" constant="111" id="if9-JY-jHA"/>
-                            <constraint firstItem="Zsh-PN-8hk" firstAttribute="centerX" secondItem="Ukd-lk-krT" secondAttribute="centerX" id="pU0-eh-NTf"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Ukd-lk-krT" secondAttribute="trailing" constant="2" id="q44-lZ-1iK">
                                 <variation key="heightClass=regular-widthClass=compact" constant="102"/>
                             </constraint>
@@ -462,6 +506,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
+        <segue reference="fq6-5l-YBa"/>
         <segue reference="XeP-D5-Ntv"/>
     </inferredMetricsTieBreakers>
 </document>
