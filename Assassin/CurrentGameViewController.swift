@@ -37,7 +37,8 @@ class CurrentGameViewController: UIViewController {
                 }
                 
             } else {
-                print(error)
+                self.youDied()
+                print("You're dead")
             }
         }
         
@@ -76,7 +77,98 @@ class CurrentGameViewController: UIViewController {
     }
     
     @IBAction func didTouchKillButton(sender: AnyObject) {
+        let playerID:String = (PFUser.currentUser()?.objectForKey("player")?.objectId)!
+        let query = PFQuery(className:"Player")
+        query.getObjectInBackgroundWithId(playerID) {
+            (player: PFObject?, error: NSError?) -> Void in
+            if error == nil && player != nil {
+                let targetID = player?.objectForKey("target") as! String
+                
+                let query2 = PFQuery(className:"Player")
+                query2.getObjectInBackgroundWithId(targetID) {
+                    (target: PFObject?, error: NSError?) -> Void in
+                    if error == nil && target != nil {
+                        let newTargetID = target?.objectForKey("target") as! String
+                        if newTargetID == player?.objectId {
+                            //YOU WON
+                            
+                            //tell them they won
+                            let alert:UIAlertView = UIAlertView()
+                            alert.title = "YOU WON!!!"
+                            alert.message = "Congratulations! You are the best!"
+                            alert.addButtonWithTitle(":)")
+                            alert.show()
+
+                            //delete everything
+                            player?.deleteInBackground()
+                            
+                            //get the game to delete it 
+                            let gameID = (PFUser.currentUser()?.objectForKey("currentGame")?.objectId)!
+                            let query3 = PFQuery(className:"Game")
+                            query3.getObjectInBackgroundWithId(gameID!) {
+                                (game: PFObject?, error: NSError?) -> Void in
+                                if error == nil && game != nil {
+                                    game?.deleteInBackground()
+                                    
+                                } else {
+                                    print(error)
+                                }
+                            }
+                            
+                            //remove pointers to the game
+                            PFUser.currentUser()?.removeObjectForKey("player")
+                            PFUser.currentUser()?.removeObjectForKey("currentGame")
+                            PFUser.currentUser()?.saveInBackground()
+                            
+                            //go back to dashboard
+                            self.performSegueWithIdentifier("backToDashboard", sender: nil)
+                        }
+                        let newTargetName = target?.objectForKey("targetName")
+                        player?.setValue(newTargetID, forKey: "target")
+                        player?.setObject(newTargetName!, forKey: "targetName")
+                        self.nameOfTargetLabel.text = newTargetName as! String
+                        player?.saveInBackgroundWithBlock{
+                            (success, error) -> Void in
+                            if (success) {
+                                target?.deleteInBackground()
+                            } else{
+                                print (error)
+                            }
+                            
+                        }
+
+                        
+                    } else {
+                        print(error)
+                    }
+                }
+                
+            } else {
+                print(error)
+            }
+        }
+        
     }
+    
+    
+    func youDied(){
+        //tell them they died
+        let alert:UIAlertView = UIAlertView()
+        alert.title = "You're dead."
+        alert.message = "Sorry bout it. Better luck next time."
+        alert.addButtonWithTitle(":(")
+        alert.show()
+        
+        //remove game pointers
+        PFUser.currentUser()?.removeObjectForKey("player")
+        PFUser.currentUser()?.removeObjectForKey("currentGame")
+        PFUser.currentUser()?.saveInBackground()
+        
+        //go back to dashboard
+        performSegueWithIdentifier("backToDashboard", sender: nil)
+        
+    }
+    
 
     /*
     // MARK: - Navigation

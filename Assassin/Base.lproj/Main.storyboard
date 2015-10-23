@@ -349,7 +349,7 @@
                                 <animations/>
                                 <state key="normal" title="Back to Dashboard"/>
                                 <connections>
-                                    <segue destination="BYZ-38-t0r" kind="show" id="fq6-5l-YBa"/>
+                                    <segue destination="BYZ-38-t0r" kind="show" identifier="backToDashboard" id="fq6-5l-YBa"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Name of Game" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ztz-Vn-Kkj">
