@@ -104,6 +104,7 @@ class CurrentGameViewController: UIViewController {
                     PFUser.currentUser()?.saveInBackground()
                     
                     self.currentGame?.incrementKey("numPlayers", byAmount: -1)
+                    self.currentGame?.saveInBackground()
                     
                     //go back to dashboard
                     self.performSegueWithIdentifier("backToDashboard", sender: nil)
@@ -149,21 +150,23 @@ class CurrentGameViewController: UIViewController {
         performSegueWithIdentifier("backToDashboard", sender: nil)
         
         //check if the game is over and needs to be deleted
-        let numPlayers = currentGame?.valueForKey("numPlayers") as! NSNumber
-        var numPlayersInt = numPlayers.integerValue
-        numPlayersInt--
-        if numPlayersInt == 0 {
-            self.currentGame?.deleteInBackground()
-        } else {
-            self.currentGame?.setValue(numPlayersInt, forKey: "numPlayers")
-            self.currentGame?.saveInBackground()
+        self.currentGame?.incrementKey("numPlayers", byAmount: -1)
+        self.currentGame?.saveInBackgroundWithBlock {
+            (success, error) -> Void in
+            if (success) {
+                let numPlayers = self.currentGame?.valueForKey("numPlayers") as! NSNumber
+                if numPlayers.integerValue == 0 {
+                    self.currentGame?.deleteInBackground()
+                }
+            } else {
+                print(error)
+            }
         }
         
 //        currentGame?.incrementKey("numPlayers", byAmount: -1)
 //        if (currentGame?.valueForKey("numPlayers")?.isEqual(0) == true){
 //            
 //        }
-        currentGame?.saveInBackground()
         //removePlayer()
     }
     
