@@ -61,10 +61,12 @@ class NewGameViewController: UIViewController, UITextFieldDelegate, UITableViewD
         let playerObject = Player(playerID: playerID as! String, targetID: "")
         playerObject.setValue(player?.objectForKey("Name"), forKey: "Name")
         playerObject.setValue(playerID, forKey: "FacebookID")
+        playerObject.setValue(false, forKey: "isKilled");
         playerObject.saveInBackground()
         let activePlayers = [playerObject]
         self.game.setObject(activePlayers, forKey: "activePlayers")
-        self.game.setValue(false, forKey: "activeGame")
+        //self.game.setValue(false, forKey: "activeGame")
+        game.setValue(1, forKey: "numPlayers")
 
         //save game
         game.saveInBackgroundWithBlock {

@@ -69,10 +69,12 @@ class InvitesViewController: UIViewController, UITableViewDataSource, UITableVie
         let playerObject = Player(playerID: playerID as! String, targetID: "")
         playerObject.setValue(playerID, forKey: "FacebookID")
         playerObject.setValue(player?.objectForKey("Name"), forKey: "Name")
+        playerObject.setValue(false, forKey: "isKilled");
         playerObject.saveInBackground() // should probably do this in block
         
         //add player object
         game.objectForKey("activePlayers")?.addObject(playerObject)
+        game.incrementKey("numPlayers")
         
         //add invited players
         game.objectForKey("invitedPlayers")?.removeObject(playerID)
