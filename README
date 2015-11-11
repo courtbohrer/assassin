@@ -1,0 +1,22 @@
+
+Functionality:
+
+-Can log in through Facebook
+-Can create game and invite friends
+-Once all players have accepted invitation, game is created with randomized targets.
+-When a player is killed, they are removed from game. 
+-Once player, is last remaining they have won and game is over.
+
+
+
+Contributions:
+
+Initial Repository Setup (Files, storyboard, ect) - Courtney
+Initial Parse Integration - Courtney
+Facebook Integration, Saving Users to Parse - Courtney 
+Initializing Game (Randomizing and assigning targets) - Quan and Courtney
+Saving Games and Player Objects to Parse - Quan and Courtney
+Cleaning out and Deleting Objects from Parse at End of Game - Quan and Courtney
+Create Game Screen - Quan
+UI Contributions - Jacob
+
