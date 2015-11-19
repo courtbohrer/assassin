@@ -120,7 +120,7 @@
             BlueprintIdentifier = "4614ABCF1BD4947D00516477"
             BuildableName = "Assassin.app"
             BlueprintName = "Assassin"
-            ReferencedContainer = "container:../../../u/quanvo/assassin/Assassin.xcodeproj">
+            ReferencedContainer = "container:../../../../u/quanvo/Documents/assassin/Assassin.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
