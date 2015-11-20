@@ -11,96 +11,96 @@ class NewGameViewController: UIViewController, UITextFieldDelegate, UITableViewD
     @IBOutlet weak var gameNameTextField: UITextField!
     @IBOutlet weak var friendPickerTableView: UITableView!
     
-    private let game:Game = Game()
-    private let friends:NSArray = PFUser.currentUser()!.objectForKey("Friends") as! NSArray
+    let game = Game()
+    let friends = PFUser.currentUser()!.objectForKey("Friends") as! NSArray
     
     override func viewDidLoad() {
-        
         super.viewDidLoad()
-        
         gameNameTextField.delegate = self
-        
         self.friendPickerTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
     }
     
-    // populate friend picker table view
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.friends.count
+        return friends.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
+        let index = indexPath.row
         let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath)
-        let friend = self.friends[indexPath.row]
+        let friend = friends[index]
         
         cell.textLabel!.text = friend.objectForKey("name")! as? String
+        cell.accessoryType = .None
         
         return cell
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        let index:Int = indexPath.row
-        let friendId:String = self.friends[index].objectForKey("id") as! String
+        let index = indexPath.row
+        let friendId = friends[index].objectForKey("id") as! String
         
-        if !self.game.invitedPlayers.contains(friendId) {
-            self.game.invitedPlayers.append(friendId)
+        if let cell = tableView.cellForRowAtIndexPath(indexPath) {
+            if cell.accessoryType == .Checkmark {
+                let indexOfSelectedFriend = game.invitedPlayers.indexOf(friendId)
+                game.invitedPlayers.removeAtIndex(indexOfSelectedFriend!)
+                cell.accessoryType = .None
+            } else {
+                game.invitedPlayers.append(friendId)
+                cell.accessoryType = .Checkmark
+            }
         }
     }
     
-    // create game
     @IBAction func createGameAction(sender: AnyObject) {
         
-        // create the game
-        self.game.setValue(self.gameNameTextField.text!, forKey: "Name")
-        self.game.setObject(self.game.invitedPlayers, forKey: "invitedPlayers")
+        // Game creator must give the game a name
+        if gameNameTextField.text == "" {
+            let alertView = UIAlertController(title: "No Game Name", message: "Let's give this game a name!", preferredStyle: .Alert)
+            alertView.addAction(UIAlertAction(title: "Okay!", style: .Default, handler: nil))
+            presentViewController(alertView, animated: true, completion: nil)
+            return
+        }
         
-        //create player object of self and add to game
-        let player = PFUser.currentUser()
-        let playerID = player!.objectForKey("FacebookID")!
+        // Game creator must invite at least one player
+        if game.invitedPlayers.count == 0 {
+            let alertView = UIAlertController(title: "Not Enough Players", message: "You should probably invite at least one opponent!", preferredStyle: .Alert)
+            alertView.addAction(UIAlertAction(title: "Okay!", style: .Default, handler: nil))
+            presentViewController(alertView, animated: true, completion: nil)
+            return
+        }
+        
+        // Set up
+        game.setValue(gameNameTextField.text!, forKey: "Name")
+        game.setObject(game.invitedPlayers, forKey: "invitedPlayers")
+        
+        // Create player object for game creator
+        let currentUser = PFUser.currentUser()
+        let playerID = currentUser!.objectForKey("FacebookID")!
         let playerObject = Player(playerID: playerID as! String, targetID: "")
-        playerObject.setValue(player?.objectForKey("Name"), forKey: "Name")
+        playerObject.setValue(currentUser?.objectForKey("Name"), forKey: "Name")
         playerObject.setValue(playerID, forKey: "FacebookID")
         playerObject.setValue(false, forKey: "isKilled");
         playerObject.saveInBackground()
+        
+        // Add game creator to game
         let activePlayers = [playerObject]
-        self.game.setObject(activePlayers, forKey: "activePlayers")
-        //self.game.setValue(false, forKey: "activeGame")
+        game.setObject(activePlayers, forKey: "activePlayers")
         game.setValue(1, forKey: "numPlayers")
-
-        //save game
+        
+        // Save game
         game.saveInBackgroundWithBlock {
             (success, error) -> Void in
             if (success) {
-                PFUser.currentUser()?.setObject(self.game, forKey: "currentGame")
-                PFUser.currentUser()?.setObject(playerObject, forKey: "player")
-                PFUser.currentUser()?.saveInBackground()
+                // Set game and player pointers for game creator
+                currentUser!.setObject(self.game, forKey: "currentGame")
+                currentUser!.setObject(playerObject, forKey: "player")
+                currentUser!.saveInBackground()
             } else {
-                print("error saving game")
+                print("Error saving game: \(error)")
             }
         }
-        
-        
-        
-        /*
-        
-        // update current user's current games and save
-        // but crashes
-        
-        let currentUser:PFUser = PFUser.currentUser()!
-        var currentGames:[String] = currentUser.objectForKey("currentGames") as! [String]
-        
-        currentGames.append(self.game.objectForKey("objectId") as! String)
-        
-        currentUser.saveInBackground()
-        
-        */
-        
-        // we need to notify all invitees they've been invited
-        // we need to update all invitees' invitedGames list to this game id
-        // i tried grabbing the game object id above, not able to know if that works
-        // we need to have the current game controller be some kind of waiting for room till game starts/drops
-        // game needs to start when invite list is empty
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {

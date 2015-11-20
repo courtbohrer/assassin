@@ -29,7 +29,6 @@ class CurrentGameViewController: UIViewController, UIImagePickerControllerDelega
             playerID = (PFUser.currentUser()?.objectForKey("player")?.objectId)!
         }
         
-        
         //get currentPlayer
         var query = PFQuery(className:"Player")
         query.getObjectInBackgroundWithId(playerID!) {
@@ -46,8 +45,7 @@ class CurrentGameViewController: UIViewController, UIImagePickerControllerDelega
                 }else {
                     self.nameOfTargetLabel.text = target as? String
                     self.killButton.enabled = true
-                }
-                
+                }   
             } else {
                 print("player not found")
             }
