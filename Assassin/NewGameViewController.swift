@@ -82,23 +82,28 @@ class NewGameViewController: UIViewController, UITextFieldDelegate, UITableViewD
         playerObject.setValue(currentUser?.objectForKey("Name"), forKey: "Name")
         playerObject.setValue(playerID, forKey: "FacebookID")
         playerObject.setValue(false, forKey: "isKilled");
-        playerObject.saveInBackground()
-        
-        // Add game creator to game
-        let activePlayers = [playerObject]
-        game.setObject(activePlayers, forKey: "activePlayers")
-        game.setValue(1, forKey: "numPlayers")
-        
-        // Save game
-        game.saveInBackgroundWithBlock {
+        playerObject.saveInBackgroundWithBlock {
             (success, error) -> Void in
             if (success) {
-                // Set game and player pointers for game creator
-                currentUser!.setObject(self.game, forKey: "currentGame")
-                currentUser!.setObject(playerObject, forKey: "player")
-                currentUser!.saveInBackground()
+                // Add game creator to game
+                let activePlayers = [playerObject]
+                self.game.setObject(activePlayers, forKey: "activePlayers")
+                self.game.setValue(1, forKey: "numPlayers")
+                
+                // Save game
+                self.game.saveInBackgroundWithBlock {
+                    (success, error) -> Void in
+                    if (success) {
+                        // Set game and player pointers for game creator
+                        currentUser!.setObject(self.game, forKey: "currentGame")
+                        currentUser!.setObject(playerObject, forKey: "player")
+                        currentUser!.saveInBackground()
+                    } else {
+                        print("Error saving game: \(error)")
+                    }
+                }
             } else {
-                print("Error saving game: \(error)")
+                print("Error saving player object: \(error)")
             }
         }
     }

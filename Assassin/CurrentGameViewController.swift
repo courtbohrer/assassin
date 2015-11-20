@@ -21,6 +21,8 @@ class CurrentGameViewController: UIViewController, UIImagePickerControllerDelega
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        nameOfGameLabel.text = ""
+        nameOfTargetLabel.text = ""
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -42,12 +44,12 @@ class CurrentGameViewController: UIViewController, UIImagePickerControllerDelega
                     self.killButton.enabled = false
                 } else if dead {
                     self.youDied()
-                }else {
+                } else {
                     self.nameOfTargetLabel.text = target as? String
                     self.killButton.enabled = true
-                }   
+                }
             } else {
-                print("player not found")
+                print("Player not found: \(error)")
             }
         }
         
@@ -58,11 +60,14 @@ class CurrentGameViewController: UIViewController, UIImagePickerControllerDelega
             (game: PFObject?, error: NSError?) -> Void in
             if error == nil && game != nil {
                 self.currentGame = game
+                
+                let currentGameName = game?.objectForKey("Name")
+                self.nameOfGameLabel.text = currentGameName as? String
+                
             } else {
-                print(error)
+                print("Game not found: \(error)")
             }
         }
-
     }
 
     override func didReceiveMemoryWarning() {
