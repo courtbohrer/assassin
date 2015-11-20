@@ -40,6 +40,7 @@
 		466DD85A1BD4C1E200445880 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 466DD8581BD4C1E200445880 /* FBSDKCoreKit.framework */; };
 		466DD85B1BD4C1E200445880 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 466DD8591BD4C1E200445880 /* FBSDKLoginKit.framework */; };
 		5944A7801BD5942700929323 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5944A77F1BD5942700929323 /* Game.swift */; };
+		59B8A2561BFEF9290095E0ED /* KillMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59B8A2551BFEF9290095E0ED /* KillMethods.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -100,6 +101,7 @@
 		466DD8591BD4C1E200445880 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		466DD85C1BD4CB9C00445880 /* BridgingHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BridgingHeader.h; sourceTree = "<group>"; };
 		5944A77F1BD5942700929323 /* Game.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
+		59B8A2551BFEF9290095E0ED /* KillMethods.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KillMethods.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -180,6 +182,7 @@
 				466DD82A1BD498E700445880 /* NewGameViewController.swift */,
 				5944A77F1BD5942700929323 /* Game.swift */,
 				460BB8E31BD565BC007BE170 /* Player.swift */,
+				59B8A2551BFEF9290095E0ED /* KillMethods.swift */,
 				466DD85C1BD4CB9C00445880 /* BridgingHeader.h */,
 				4614ABDF1BD4947D00516477 /* Info.plist */,
 				4614ABDA1BD4947D00516477 /* Assets.xcassets */,
@@ -365,6 +368,7 @@
 			files = (
 				466DD8291BD498C500445880 /* CurrentGameViewController.swift in Sources */,
 				5944A7801BD5942700929323 /* Game.swift in Sources */,
+				59B8A2561BFEF9290095E0ED /* KillMethods.swift in Sources */,
 				466DD8251BD4980E00445880 /* LoginViewController.swift in Sources */,
 				4614ABD61BD4947D00516477 /* ViewController.swift in Sources */,
 				4614ABD41BD4947D00516477 /* AppDelegate.swift in Sources */,

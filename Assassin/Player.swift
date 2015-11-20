@@ -8,9 +8,8 @@
 
 class Player: PFObject, PFSubclassing {
     
-    var playerID:String
-    var targetID:String
-    
+    var playerID = ""
+    var targetID = ""
     
     override class func initialize() {
         struct Static {
@@ -24,17 +23,16 @@ class Player: PFObject, PFSubclassing {
     class func parseClassName() -> String {
         return "Player"
     }
-
     
     init(playerID:String, targetID:String) {
+        super.init()
         self.playerID = playerID
         self.targetID = targetID
-        super.init()
     }
-    
-    override init(){
+
+    override init() {
+        super.init()
         playerID = ""
         targetID = ""
-        super.init()
     }
 }

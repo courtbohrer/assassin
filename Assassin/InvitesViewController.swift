@@ -23,23 +23,26 @@ class InvitesViewController: UIViewController, UITableViewDataSource, UITableVie
         self.invitesTableView.dataSource = self
     }
     
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+    
     override func viewDidAppear(animated: Bool) {
         
-        let myFBID:String = PFUser.currentUser()?.objectForKey("FacebookID") as! String
+        let myFBID = PFUser.currentUser()?.objectForKey("FacebookID") as! String
         let query = PFQuery(className:"Game")
         
         query.whereKey("invitedPlayers", containsAllObjectsInArray:[myFBID])
         query.findObjectsInBackgroundWithBlock {
             (objects: [PFObject]?, error: NSError?) -> Void in
-            
+
             if error == nil {
                 
-                // The find succeeded.
                 self.invitedGames = objects!
                 self.invitesTableView.reloadData()
                 
             } else {
-                print("query error")
+                print("Query error: \(error)")
             }
         }
     }
@@ -82,14 +85,14 @@ class InvitesViewController: UIViewController, UITableViewDataSource, UITableVie
             playerObject.setValue(false, forKey: "isKilled");
             playerObject.saveInBackground()
             
-            //add player object
+            // add player object
             game.objectForKey("activePlayers")?.addObject(playerObject)
             game.incrementKey("numPlayers")
             
-            //add invited players
+            // add invited players
             game.objectForKey("invitedPlayers")?.removeObject(playerID)
             
-            //save game
+            // save game
             game.saveInBackgroundWithBlock {
                 (success, error) -> Void in
                 if (success) {
@@ -97,7 +100,7 @@ class InvitesViewController: UIViewController, UITableViewDataSource, UITableVie
                     PFUser.currentUser()?.setObject(playerObject, forKey: "player")
                     PFUser.currentUser()?.saveInBackground()
                     
-                    //if this is the last player to RSVP, start the game
+                    // if this is the last player to RSVP, start the game
                     if game.objectForKey("invitedPlayers")?.count == 0 {
                         self.assignTargets(game)
                         game.setValue(true, forKey: "activeGame")
@@ -116,18 +119,16 @@ class InvitesViewController: UIViewController, UITableViewDataSource, UITableVie
                 }
             }
             
-            //notify player that game was created
-            let alert:UIAlertView = UIAlertView()
-            alert.title = "You have been added to the game!"
-            alert.addButtonWithTitle("Okay!")
-            alert.show()
+            // Notify player that game was created
+            let alertView = UIAlertController(title: "You have been added to the game!", message: "", preferredStyle: .Alert)
+            alertView.addAction(UIAlertAction(title: "Okay!", style: .Default, handler: nil))
+            self.presentViewController(alertView, animated: true, completion: nil)
            
-        // else notify the player she/he can only be in one game!
+        // Else notify the player she/he can only be in one game!
         } else {
-            let alert:UIAlertView = UIAlertView()
-            alert.title = "You're currently already in a game! Finish that one first!"
-            alert.addButtonWithTitle("Oops! Okay!")
-            alert.show()
+            let alertView = UIAlertController(title: "You're currently already in a game! Finish that one first!", message: "", preferredStyle: .Alert)
+            alertView.addAction(UIAlertAction(title: "Oops! Okay!", style: .Default, handler: nil))
+            self.presentViewController(alertView, animated: true, completion: nil)
         }
     }
     
@@ -146,7 +147,6 @@ class InvitesViewController: UIViewController, UITableViewDataSource, UITableVie
             let target = newActive[i+1];
             newActive[i].setValue(target.objectId, forKey: "target")
             newActive[i].saveInBackground()
-            
             let query = PFQuery(className:"Player")
             query.getObjectInBackgroundWithId(target.objectId!) {
                 (player: PFObject?, error: NSError?) -> Void in
@@ -160,7 +160,6 @@ class InvitesViewController: UIViewController, UITableViewDataSource, UITableVie
         }
         newActive[size - 1].setValue(newActive[0].objectId, forKey: "target")
         newActive[size - 1].saveInBackground()
-        
         let query = PFQuery(className:"Player")
         query.getObjectInBackgroundWithId(newActive[0].objectId!) {
             (player: PFObject?, error: NSError?) -> Void in
@@ -171,27 +170,6 @@ class InvitesViewController: UIViewController, UITableViewDataSource, UITableVie
                 print(error)
             }
         }
-        
-        print("Assigning targets")
-        
-        //        var active:[Player] = game.objectForKey("activePlayers") as! [Player]
-        //
-        //        var lastPlayer:Player = active[0]
-        //        active.removeAtIndex(0);
-        //        var nextPlayer: Player;
-        //
-        //        while active.isEmpty == false {
-        //            let rand:Int = Int(arc4random_uniform(UInt32(active.count - 1)))
-        //            nextPlayer = active[rand]
-        //            nextPlayer.targetID = lastPlayer.playerID
-        //            nextPlayer.saveInBackground()
-        //            active.removeAtIndex(rand)
-        //            lastPlayer = nextPlayer
-        //        }
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
     }
     
     @IBAction func backButton(sender: AnyObject) {

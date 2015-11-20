@@ -8,18 +8,10 @@
 
 class Game: PFObject, PFSubclassing {
     
-    private var _gameName:String = ""
+    var gameName = ""
     var invitedPlayers:[String] = []
     var activePlayers:[PFObject] = []
-    
-    var gameName:String {
-        get {
-            return _gameName
-        }
-        set (new) {
-            _gameName = new
-        }
-    }
+    var killMethod = ""
     
     override class func initialize() {
         struct Static {
@@ -34,15 +26,25 @@ class Game: PFObject, PFSubclassing {
         return "Game"
     }
     
+    func getRandomKillMethod() -> String {
+        let killMethods = KillMethods()
+        let random = Int(arc4random_uniform(UInt32(killMethods.killMethods.count - 1)))
+        return killMethods.killMethods[random]
+    }
+    
     init(gameName:String, invitedPlayers:[String], activePlayers:[PFObject]) {
         super.init()
         self.gameName = gameName
         self.invitedPlayers = invitedPlayers
         self.activePlayers = activePlayers
+        self.killMethod = getRandomKillMethod()
     }
     
-    convenience override init() {
-        self.init(gameName:"<noGameName>", invitedPlayers:[], activePlayers:[])
+    override init() {
+        super.init()
+        self.gameName = ""
+        self.invitedPlayers = []
+        self.activePlayers = []
+        self.killMethod = getRandomKillMethod()
     }
-    
 }

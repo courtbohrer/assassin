@@ -20,6 +20,10 @@ class NewGameViewController: UIViewController, UITextFieldDelegate, UITableViewD
         self.friendPickerTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
     }
     
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return friends.count
     }
@@ -57,7 +61,7 @@ class NewGameViewController: UIViewController, UITextFieldDelegate, UITableViewD
         
         // Game creator must give the game a name
         if gameNameTextField.text == "" {
-            let alertView = UIAlertController(title: "No Game Name", message: "Let's give this game a name!", preferredStyle: .Alert)
+            let alertView = UIAlertController(title: "No Game Name", message: "Let's give this game a name first!", preferredStyle: .Alert)
             alertView.addAction(UIAlertAction(title: "Okay!", style: .Default, handler: nil))
             presentViewController(alertView, animated: true, completion: nil)
             return
@@ -74,6 +78,7 @@ class NewGameViewController: UIViewController, UITextFieldDelegate, UITableViewD
         // Set up
         game.setValue(gameNameTextField.text!, forKey: "Name")
         game.setObject(game.invitedPlayers, forKey: "invitedPlayers")
+        game.setObject(game.killMethod, forKey: "killMethod")
         
         // Create player object for game creator
         let currentUser = PFUser.currentUser()
@@ -85,6 +90,7 @@ class NewGameViewController: UIViewController, UITextFieldDelegate, UITableViewD
         playerObject.saveInBackgroundWithBlock {
             (success, error) -> Void in
             if (success) {
+                
                 // Add game creator to game
                 let activePlayers = [playerObject]
                 self.game.setObject(activePlayers, forKey: "activePlayers")
@@ -94,6 +100,7 @@ class NewGameViewController: UIViewController, UITextFieldDelegate, UITableViewD
                 self.game.saveInBackgroundWithBlock {
                     (success, error) -> Void in
                     if (success) {
+                        
                         // Set game and player pointers for game creator
                         currentUser!.setObject(self.game, forKey: "currentGame")
                         currentUser!.setObject(playerObject, forKey: "player")
@@ -115,9 +122,5 @@ class NewGameViewController: UIViewController, UITextFieldDelegate, UITableViewD
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         view.endEditing(true)
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
     }
 }

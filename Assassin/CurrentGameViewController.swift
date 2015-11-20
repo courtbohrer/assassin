@@ -10,29 +10,50 @@ import UIKit
 import MobileCoreServices
 
 class CurrentGameViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-
+    
     @IBOutlet weak var nameOfGameLabel: UILabel!
     @IBOutlet weak var nameOfTargetLabel: UILabel!
+    @IBOutlet weak var lblKillMethod: UILabel!
     @IBOutlet weak var killButton: UIButton!
+    
     var currentPlayer:PFObject?
     var playerID:String?
     var currentGame:PFObject?
-    var newMedia: Bool?
+    var currentGameKillMethod:String?
+    var newMedia:Bool?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        currentPlayer = PFUser.currentUser()
         nameOfGameLabel.text = ""
         nameOfTargetLabel.text = ""
+        lblKillMethod.text = ""
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
     }
     
     override func viewDidAppear(animated: Bool) {
-        //set playerID
-        if (PFUser.currentUser()) != nil {
-            playerID = (PFUser.currentUser()?.objectForKey("player")?.objectId)!
+        
+        // Set game info
+        let gameID = (currentPlayer?.objectForKey("currentGame")?.objectId)! as String
+        var query = PFQuery(className:"Game")
+        query.getObjectInBackgroundWithId(gameID) {
+            (game: PFObject?, error: NSError?) -> Void in
+            if error == nil && game != nil {
+                self.currentGame = game
+                let currentGameName = self.currentGame!.objectForKey("Name")
+                self.nameOfGameLabel.text = currentGameName as? String
+                self.currentGameKillMethod = game?.objectForKey("killMethod") as? String
+            } else {
+                print("Game not found: \(error)")
+            }
         }
         
-        //get currentPlayer
-        var query = PFQuery(className:"Player")
+        // Set player info
+        playerID = (currentPlayer?.objectForKey("player")?.objectId)!
+        query = PFQuery(className:"Player")
         query.getObjectInBackgroundWithId(playerID!) {
             (player: PFObject?, error: NSError?) -> Void in
             if error == nil && player != nil {
@@ -41,38 +62,19 @@ class CurrentGameViewController: UIViewController, UIImagePickerControllerDelega
                 let dead = player?.objectForKey("isKilled") as! Bool
                 if target == nil {
                     self.nameOfTargetLabel.text = "This game has not started yet."
+                    self.lblKillMethod.text = "<Randomizing kill methods...>"
                     self.killButton.enabled = false
                 } else if dead {
                     self.youDied()
                 } else {
                     self.nameOfTargetLabel.text = target as? String
+                    self.lblKillMethod.text = "Kill Method: " + self.currentGameKillMethod!
                     self.killButton.enabled = true
                 }
             } else {
                 print("Player not found: \(error)")
             }
         }
-        
-        //get the name of the game
-        let gameID = (PFUser.currentUser()?.objectForKey("currentGame")?.objectId)!
-        query = PFQuery(className:"Game")
-        query.getObjectInBackgroundWithId(gameID!) {
-            (game: PFObject?, error: NSError?) -> Void in
-            if error == nil && game != nil {
-                self.currentGame = game
-                
-                let currentGameName = game?.objectForKey("Name")
-                self.nameOfGameLabel.text = currentGameName as? String
-                
-            } else {
-                print("Game not found: \(error)")
-            }
-        }
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     @IBAction func didTouchKillButton(sender: AnyObject) {
@@ -85,7 +87,7 @@ class CurrentGameViewController: UIViewController, UIImagePickerControllerDelega
             imagePicker.mediaTypes = [kUTTypeImage as NSString as String]
             imagePicker.allowsEditing = false
             imagePicker.showsCameraControls = true
-
+            
             self.presentViewController(imagePicker, animated: true, completion: nil)
             
             newMedia = true
@@ -116,36 +118,35 @@ class CurrentGameViewController: UIViewController, UIImagePickerControllerDelega
         
     }
     
-func performKill(imageFile: PFFile){
-        //get target
+    func performKill(imageFile: PFFile) {
+        
+        // Get target
         let targetID = currentPlayer?.objectForKey("target") as! String
         let query = PFQuery(className:"Player")
         query.getObjectInBackgroundWithId(targetID) {
             (target: PFObject?, error: NSError?) -> Void in
             if error == nil && target != nil {
                 
-                //tell the target that they have been killed
+                // Tell the target that they have been killed
                 target?.setValue(true, forKey: "isKilled")
                 target?.setObject(imageFile, forKey: "killPhoto")
                 target?.saveInBackground()
                 
-                //get new target
+                // Get new target
                 let newTargetID = target?.objectForKey("target") as! String
-                //check if loop has circled back to self
+                // Check if loop has circled back to self
                 if newTargetID == self.currentPlayer?.objectId {
-                    //if so, you won
+                    // If so, you won
                     
-                    //tell them they won
-                    let alert:UIAlertView = UIAlertView()
-                    alert.title = "YOU WON!!!"
-                    alert.message = "Congratulations! You are the best!"
-                    alert.addButtonWithTitle(":)")
-                    alert.show()
+                    // Tell them they won
+                    let alertView = UIAlertController(title: "YOU WON!!!", message: "Congratulations! You are the best!", preferredStyle: .Alert)
+                    alertView.addAction(UIAlertAction(title: ":)", style: .Default, handler: nil))
+                    self.presentViewController(alertView, animated: true, completion: nil)
                     
                     //delete player
                     //self.currentPlayer?.deleteInBackground()
                     
-                    //remove pointers to the game and add win
+                    // Remove pointers to the game and add win
                     PFUser.currentUser()?.removeObjectForKey("player")
                     PFUser.currentUser()?.removeObjectForKey("currentGame")
                     PFUser.currentUser()?.incrementKey("numWins")
@@ -155,11 +156,11 @@ func performKill(imageFile: PFFile){
                     self.currentGame?.incrementKey("numPlayers", byAmount: -1)
                     self.currentGame?.saveInBackground()
                     
-                    //go back to dashboard
+                    // Go back to dashboard
                     self.performSegueWithIdentifier("backToDashboard", sender: nil)
-                } else {
                     
-                    //if the new target is not yourself
+                } else {
+                    // If the new target is not yourself
                     let newTargetName = target?.objectForKey("targetName")
                     self.currentPlayer?.setValue(newTargetID, forKey: "target")
                     self.currentPlayer?.setObject(newTargetName!, forKey: "targetName")
@@ -167,11 +168,9 @@ func performKill(imageFile: PFFile){
                     self.currentPlayer?.saveInBackgroundWithBlock{
                         (success, error) -> Void in
                         if (success) {
-                            
-                        } else{
+                        } else {
                             print (error)
                         }
-                        
                     }
                 }
             } else {
@@ -198,15 +197,13 @@ func performKill(imageFile: PFFile){
     func imagePickerControllerDidCancel(picker: UIImagePickerController) {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
-
     
-    func youDied(){
+    func youDied() {
+        
         //tell them they died
-        let alert:UIAlertView = UIAlertView()
-        alert.title = "You're dead."
-        alert.message = "Sorry 'bout it. Better luck next time."
-        alert.addButtonWithTitle(":(")
-        alert.show()
+        let alertView = UIAlertController(title: "You're dead.", message: "Sorry 'bout it. Better luck next time.", preferredStyle: .Alert)
+        alertView.addAction(UIAlertAction(title: ":(", style: .Default, handler: nil))
+        self.presentViewController(alertView, animated: true, completion: nil)
         
         //remove game pointers
         PFUser.currentUser()?.removeObjectForKey("player")
@@ -214,9 +211,8 @@ func performKill(imageFile: PFFile){
         PFUser.currentUser()?.saveInBackground()
         
         //**CHANGE** No longer deleting here. Waiting to delete player objects until end of game now.
-        //delete player object 
+        //delete player object
         //currentPlayer?.deleteInBackground()
-        
         
         //check if the game is over and needs to be deleted
         self.currentGame?.incrementKey("numPlayers", byAmount: -1)
@@ -225,7 +221,7 @@ func performKill(imageFile: PFFile){
             if (success) {
                 let numPlayers = self.currentGame?.valueForKey("numPlayers") as! NSNumber
                 if numPlayers.integerValue == 0 {
-                    //game is over, delete objects 
+                    //game is over, delete objects
                     
                     //delete all player objects
                     let players:[PFObject] = self.currentGame!.objectForKey("activePlayers") as! [PFObject]
@@ -244,16 +240,4 @@ func performKill(imageFile: PFFile){
         //go back to dashboard
         performSegueWithIdentifier("backToDashboard", sender: nil)
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
