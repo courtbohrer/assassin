@@ -12,7 +12,7 @@ class InvitesViewController: UIViewController, UITableViewDataSource, UITableVie
     
     @IBOutlet weak var invitesTableView: UITableView!
     var invitedGames:[PFObject] = []
-    private var reuseIdentifier = "invitesCell"
+    var reuseIdentifier = "invitesCell"
     
     override func viewDidLoad() {
         
@@ -62,6 +62,22 @@ class InvitesViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        // New code
+        
+//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//        let viewController = storyboard.instantiateViewControllerWithIdentifier("InvitedGameDetailViewController") as! InvitedGameDetailViewController
+//        
+//        let index:Int = indexPath.row
+//        let game = self.invitedGames[index]
+//        let gameID = game.objectId
+//        
+//        viewController.gameID = gameID!
+//        
+//        viewController.modalPresentationStyle = UIModalPresentationStyle.Popover
+//        presentViewController(viewController, animated: true, completion:nil)
+//        
+        // End new code
         
         // get player
         let player = PFUser.currentUser()
@@ -127,7 +143,7 @@ class InvitesViewController: UIViewController, UITableViewDataSource, UITableVie
         // Else notify the player she/he can only be in one game!
         } else {
             let alertView = UIAlertController(title: "You're currently already in a game! Finish that one first!", message: "", preferredStyle: .Alert)
-            alertView.addAction(UIAlertAction(title: "Oops! Okay!", style: .Default, handler: nil))
+            alertView.addAction(UIAlertAction(title: "Okay!", style: .Default, handler: nil))
             self.presentViewController(alertView, animated: true, completion: nil)
         }
     }
@@ -136,7 +152,7 @@ class InvitesViewController: UIViewController, UITableViewDataSource, UITableVie
         var newActive:[PFObject] = []
         var oldActive:[PFObject] = game.objectForKey("activePlayers") as! [PFObject]
         var size = oldActive.count
-        while (size > 0){
+        while size > 0 {
             let rand:Int = Int(arc4random_uniform(UInt32(size - 1)))
             newActive.append(oldActive[rand])
             oldActive.removeAtIndex(rand)

@@ -11,8 +11,8 @@ class NewGameViewController: UIViewController, UITextFieldDelegate, UITableViewD
     @IBOutlet weak var gameNameTextField: UITextField!
     @IBOutlet weak var friendPickerTableView: UITableView!
     
-    let game = Game()
     let friends = PFUser.currentUser()!.objectForKey("Friends") as! NSArray
+    var invitedPlayers = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,11 +47,11 @@ class NewGameViewController: UIViewController, UITextFieldDelegate, UITableViewD
         
         if let cell = tableView.cellForRowAtIndexPath(indexPath) {
             if cell.accessoryType == .Checkmark {
-                let indexOfSelectedFriend = game.invitedPlayers.indexOf(friendId)
-                game.invitedPlayers.removeAtIndex(indexOfSelectedFriend!)
+                let indexOfSelectedFriend = invitedPlayers.indexOf(friendId)
+                invitedPlayers.removeAtIndex(indexOfSelectedFriend!)
                 cell.accessoryType = .None
             } else {
-                game.invitedPlayers.append(friendId)
+                invitedPlayers.append(friendId)
                 cell.accessoryType = .Checkmark
             }
         }
@@ -68,16 +68,18 @@ class NewGameViewController: UIViewController, UITextFieldDelegate, UITableViewD
         }
         
         // Game creator must invite at least one player
-        if game.invitedPlayers.count == 0 {
+        if invitedPlayers.count == 0 {
             let alertView = UIAlertController(title: "Not Enough Players", message: "You should probably invite at least one opponent!", preferredStyle: .Alert)
             alertView.addAction(UIAlertAction(title: "Okay!", style: .Default, handler: nil))
             presentViewController(alertView, animated: true, completion: nil)
             return
         }
         
+        let game = Game()
+        
         // Set up
         game.setValue(gameNameTextField.text!, forKey: "Name")
-        game.setObject(game.invitedPlayers, forKey: "invitedPlayers")
+        game.setObject(invitedPlayers, forKey: "invitedPlayers")
         game.setObject(game.killMethod, forKey: "killMethod")
         
         // Create player object for game creator
@@ -90,19 +92,21 @@ class NewGameViewController: UIViewController, UITextFieldDelegate, UITableViewD
         playerObject.saveInBackgroundWithBlock {
             (success, error) -> Void in
             if (success) {
+                // Set game creator as host and add to game
+                let hostName = currentUser?.objectForKey("Name")
+                game.setObject(hostName!, forKey: "Host")
                 
-                // Add game creator to game
                 let activePlayers = [playerObject]
-                self.game.setObject(activePlayers, forKey: "activePlayers")
-                self.game.setValue(1, forKey: "numPlayers")
+                game.setObject(activePlayers, forKey: "activePlayers")
+                game.setValue(1, forKey: "numPlayers")
                 
                 // Save game
-                self.game.saveInBackgroundWithBlock {
+                game.saveInBackgroundWithBlock {
                     (success, error) -> Void in
                     if (success) {
                         
                         // Set game and player pointers for game creator
-                        currentUser!.setObject(self.game, forKey: "currentGame")
+                        currentUser!.setObject(game, forKey: "currentGame")
                         currentUser!.setObject(playerObject, forKey: "player")
                         currentUser!.saveInBackground()
                     } else {

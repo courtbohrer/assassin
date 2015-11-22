@@ -35,7 +35,6 @@ class CurrentGameViewController: UIViewController, UIImagePickerControllerDelega
     }
     
     override func viewDidAppear(animated: Bool) {
-        
         // Set game info
         let gameID = (currentPlayer?.objectForKey("currentGame")?.objectId)! as String
         var query = PFQuery(className:"Game")
@@ -43,14 +42,13 @@ class CurrentGameViewController: UIViewController, UIImagePickerControllerDelega
             (game: PFObject?, error: NSError?) -> Void in
             if error == nil && game != nil {
                 self.currentGame = game
-                let currentGameName = self.currentGame!.objectForKey("Name")
-                self.nameOfGameLabel.text = currentGameName as? String
+                let currentGameName = self.currentGame!.objectForKey("Name") as? String
+                self.nameOfGameLabel.text = currentGameName
                 self.currentGameKillMethod = game?.objectForKey("killMethod") as? String
             } else {
                 print("Game not found: \(error)")
             }
         }
-        
         // Set player info
         playerID = (currentPlayer?.objectForKey("player")?.objectId)!
         query = PFQuery(className:"Player")
@@ -134,11 +132,11 @@ class CurrentGameViewController: UIViewController, UIImagePickerControllerDelega
                 
                 // Get new target
                 let newTargetID = target?.objectForKey("target") as! String
+                
                 // Check if loop has circled back to self
                 if newTargetID == self.currentPlayer?.objectId {
-                    // If so, you won
                     
-                    // Tell them they won
+                    // If so, you won
                     let alertView = UIAlertController(title: "YOU WON!!!", message: "Congratulations! You are the best!", preferredStyle: .Alert)
                     alertView.addAction(UIAlertAction(title: ":)", style: .Default, handler: nil))
                     self.presentViewController(alertView, animated: true, completion: nil)
@@ -180,7 +178,6 @@ class CurrentGameViewController: UIViewController, UIImagePickerControllerDelega
     }
     
     func image(image: UIImage, didFinishSavingWithError error: NSErrorPointer, contextInfo:UnsafePointer<Void>) {
-        
         if error != nil {
             let alert = UIAlertController(title: "Save Failed", message: "Failed to save image", preferredStyle: UIAlertControllerStyle.Alert)
             let cancelAction = UIAlertAction(title: "OK", style: .Cancel, handler: nil)
@@ -224,7 +221,7 @@ class CurrentGameViewController: UIViewController, UIImagePickerControllerDelega
                     //game is over, delete objects
                     
                     //delete all player objects
-                    let players:[PFObject] = self.currentGame!.objectForKey("activePlayers") as! [PFObject]
+                    let players = self.currentGame!.objectForKey("activePlayers") as! [PFObject]
                     for player in players {
                         player.deleteInBackground()
                     }

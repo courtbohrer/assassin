@@ -12,6 +12,7 @@ class Game: PFObject, PFSubclassing {
     var invitedPlayers:[String] = []
     var activePlayers:[PFObject] = []
     var killMethod = ""
+    var host = ""
     
     override class func initialize() {
         struct Static {
@@ -32,9 +33,10 @@ class Game: PFObject, PFSubclassing {
         return killMethods.killMethods[random]
     }
     
-    init(gameName:String, invitedPlayers:[String], activePlayers:[PFObject]) {
+    init(gameName:String, invitedPlayers:[String], activePlayers:[PFObject], host:String) {
         super.init()
         self.gameName = gameName
+        self.host = host
         self.invitedPlayers = invitedPlayers
         self.activePlayers = activePlayers
         self.killMethod = getRandomKillMethod()
@@ -43,6 +45,7 @@ class Game: PFObject, PFSubclassing {
     override init() {
         super.init()
         self.gameName = ""
+        self.host = ""
         self.invitedPlayers = []
         self.activePlayers = []
         self.killMethod = getRandomKillMethod()
