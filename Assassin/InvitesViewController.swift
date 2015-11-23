@@ -35,12 +35,9 @@ class InvitesViewController: UIViewController, UITableViewDataSource, UITableVie
         query.whereKey("invitedPlayers", containsAllObjectsInArray:[myFBID])
         query.findObjectsInBackgroundWithBlock {
             (objects: [PFObject]?, error: NSError?) -> Void in
-
-            if error == nil {
-                
+            if error == nil && objects != nil {
                 self.invitedGames = objects!
                 self.invitesTableView.reloadData()
-                
             } else {
                 print("Query error: \(error)")
             }
@@ -65,87 +62,87 @@ class InvitesViewController: UIViewController, UITableViewDataSource, UITableVie
         
         // New code
         
-//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//        let viewController = storyboard.instantiateViewControllerWithIdentifier("InvitedGameDetailViewController") as! InvitedGameDetailViewController
-//        
-//        let index:Int = indexPath.row
-//        let game = self.invitedGames[index]
-//        let gameID = game.objectId
-//        
-//        viewController.gameID = gameID!
-//        
-//        viewController.modalPresentationStyle = UIModalPresentationStyle.Popover
-//        presentViewController(viewController, animated: true, completion:nil)
-//        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let viewController = storyboard.instantiateViewControllerWithIdentifier("InvitedGameDetailViewController") as! InvitedGameDetailViewController
+        
+        let index:Int = indexPath.row
+        let game = self.invitedGames[index]
+        let gameID = game.objectId
+        
+        viewController.gameID = gameID!
+        
+        viewController.modalPresentationStyle = UIModalPresentationStyle.Popover
+        presentViewController(viewController, animated: true, completion:nil)
+
         // End new code
         
-        // get player
-        let player = PFUser.currentUser()
-        let playersCurrentGame = player?.objectForKey("currentGame")
-        
-        // check if player is currently in a game
-        // if not, enter them into the new game
-        if playersCurrentGame == nil {
-            
-            //get game
-            let index:Int = indexPath.row
-            let game = self.invitedGames[index]
-            
-            // create new player object
-            let playerID = player!.objectForKey("FacebookID")!
-            let playerObject = Player(playerID: playerID as! String, targetID: "")
-            
-            // set values
-            playerObject.setValue(playerID, forKey: "FacebookID")
-            playerObject.setValue(player?.objectForKey("Name"), forKey: "Name")
-            playerObject.setValue(false, forKey: "isKilled");
-            playerObject.saveInBackground()
-            
-            // add player object
-            game.objectForKey("activePlayers")?.addObject(playerObject)
-            game.incrementKey("numPlayers")
-            
-            // add invited players
-            game.objectForKey("invitedPlayers")?.removeObject(playerID)
-            
-            // save game
-            game.saveInBackgroundWithBlock {
-                (success, error) -> Void in
-                if (success) {
-                    PFUser.currentUser()?.setObject(game, forKey: "currentGame")
-                    PFUser.currentUser()?.setObject(playerObject, forKey: "player")
-                    PFUser.currentUser()?.saveInBackground()
-                    
-                    // if this is the last player to RSVP, start the game
-                    if game.objectForKey("invitedPlayers")?.count == 0 {
-                        self.assignTargets(game)
-                        game.setValue(true, forKey: "activeGame")
-                        game.saveInBackgroundWithBlock {
-                            (success, error) -> Void in
-                            if (success) {
-                                self.performSegueWithIdentifier("showNewGame", sender: nil)
-                            }
-                            else {
-                                print("error saving target")
-                            }
-                        }
-                    }
-                } else {
-                    print("error saving game")
-                }
-            }
-            
-            // Notify player that game was created
-            let alertView = UIAlertController(title: "You have been added to the game!", message: "", preferredStyle: .Alert)
-            alertView.addAction(UIAlertAction(title: "Okay!", style: .Default, handler: nil))
-            self.presentViewController(alertView, animated: true, completion: nil)
-           
-        // Else notify the player she/he can only be in one game!
-        } else {
-            let alertView = UIAlertController(title: "You're currently already in a game! Finish that one first!", message: "", preferredStyle: .Alert)
-            alertView.addAction(UIAlertAction(title: "Okay!", style: .Default, handler: nil))
-            self.presentViewController(alertView, animated: true, completion: nil)
-        }
+//        // get player
+//        let player = PFUser.currentUser()
+//        let playersCurrentGame = player?.objectForKey("currentGame")
+//        
+//        // check if player is currently in a game
+//        // if not, enter them into the new game
+//        if playersCurrentGame == nil {
+//            
+//            //get game
+//            let index:Int = indexPath.row
+//            let game = self.invitedGames[index]
+//            
+//            // create new player object
+//            let playerID = player!.objectForKey("FacebookID")!
+//            let playerObject = Player(playerID: playerID as! String, targetID: "")
+//            
+//            // set values
+//            playerObject.setValue(playerID, forKey: "FacebookID")
+//            playerObject.setValue(player?.objectForKey("Name"), forKey: "Name")
+//            playerObject.setValue(false, forKey: "isKilled");
+//            playerObject.saveInBackground()
+//            
+//            // add player object
+//            game.objectForKey("activePlayers")?.addObject(playerObject)
+//            game.incrementKey("numPlayers")
+//            
+//            // add invited players
+//            game.objectForKey("invitedPlayers")?.removeObject(playerID)
+//            
+//            // save game
+//            game.saveInBackgroundWithBlock {
+//                (success, error) -> Void in
+//                if (success) {
+//                    PFUser.currentUser()?.setObject(game, forKey: "currentGame")
+//                    PFUser.currentUser()?.setObject(playerObject, forKey: "player")
+//                    PFUser.currentUser()?.saveInBackground()
+//                    
+//                    // if this is the last player to RSVP, start the game
+//                    if game.objectForKey("invitedPlayers")?.count == 0 {
+//                        self.assignTargets(game)
+//                        game.setValue(true, forKey: "activeGame")
+//                        game.saveInBackgroundWithBlock {
+//                            (success, error) -> Void in
+//                            if (success) {
+//                                self.performSegueWithIdentifier("showNewGame", sender: nil)
+//                            }
+//                            else {
+//                                print("error saving target")
+//                            }
+//                        }
+//                    }
+//                } else {
+//                    print("error saving game")
+//                }
+//            }
+//            
+//            // Notify player that game was created
+//            let alertView = UIAlertController(title: "You have been added to the game!", message: "", preferredStyle: .Alert)
+//            alertView.addAction(UIAlertAction(title: "Okay!", style: .Default, handler: nil))
+//            self.presentViewController(alertView, animated: true, completion: nil)
+//           
+//        // Else notify the player she/he can only be in one game!
+//        } else {
+//            let alertView = UIAlertController(title: "You're currently already in a game! Finish that one first!", message: "", preferredStyle: .Alert)
+//            alertView.addAction(UIAlertAction(title: "Okay!", style: .Default, handler: nil))
+//            self.presentViewController(alertView, animated: true, completion: nil)
+//        }
     }
     
     func assignTargets(game:PFObject) {

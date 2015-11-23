@@ -117,7 +117,6 @@ class CurrentGameViewController: UIViewController, UIImagePickerControllerDelega
     }
     
     func performKill(imageFile: PFFile) {
-        
         // Get target
         let targetID = currentPlayer?.objectForKey("target") as! String
         let query = PFQuery(className:"Player")
