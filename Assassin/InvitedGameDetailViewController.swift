@@ -36,7 +36,6 @@ class InvitedGameDetailViewController: UIViewController, UITableViewDataSource, 
                 self.labelWhoInvitedYou.text = gameHost + " invited you!"
                 
                 let activePlayers = game!.objectForKey("activePlayers") as! [PFObject]
-                print(activePlayers)
                 for player in activePlayers {
                     let playerObjectID = player.valueForKey("objectId") as! String
                     
@@ -117,7 +116,7 @@ class InvitedGameDetailViewController: UIViewController, UITableViewDataSource, 
             game!.objectForKey("activePlayers")?.addObject(playerObject)
             game!.incrementKey("numPlayers")
             
-            // Decrement game's numberOfPendingInvites
+            // Remove player from the game's invitedPlayers list
             game!.objectForKey("invitedPlayers")?.removeObject(playerID)
             
             // Save game
@@ -135,14 +134,14 @@ class InvitedGameDetailViewController: UIViewController, UITableViewDataSource, 
                         self.game!.setValue(true, forKey: "activeGame")
                         self.game!.saveInBackgroundWithBlock {
                             (success, error) -> Void in
-                            if (success) {
-                                
+                            if (success) { 
                                 // Notify player that game was created
                                 let alertView = UIAlertController(title: "You have been added to the game!", message: "", preferredStyle: .Alert)
                                 alertView.addAction(UIAlertAction(title: "Okay!", style: .Default, handler: nil))
                                 self.presentViewController(alertView, animated: true, completion: nil)
                                 
-                                self.performSegueWithIdentifier("showNewGame", sender: nil)
+                                self.dismissViewControllerAnimated(true, completion: nil)
+                                self.performSegueWithIdentifier("GoToNewGame", sender: nil)
                             }
                             else {
                                 print("Error saving game: \(error)")

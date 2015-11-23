@@ -404,6 +404,7 @@
                         <outlet property="labelInvitedGameName" destination="jbF-XF-eIt" id="hkU-bO-4E1"/>
                         <outlet property="labelWhoInvitedYou" destination="Keo-ct-aKL" id="JZY-IT-slc"/>
                         <outlet property="tableViewTheOtherInvitedPlayers" destination="7ue-bx-GiR" id="Lvg-qf-3yW"/>
+                        <segue destination="lJb-AJ-Us9" kind="show" identifier="GoToNewGame" id="PKg-9E-YKN"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xw1-wy-la0" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -617,6 +618,6 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="ysa-mH-lGg"/>
-        <segue reference="t91-sv-oI1"/>
+        <segue reference="PKg-9E-YKN"/>
     </inferredMetricsTieBreakers>
 </document>
