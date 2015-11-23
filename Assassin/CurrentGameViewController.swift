@@ -36,7 +36,7 @@ class CurrentGameViewController: UIViewController, UIImagePickerControllerDelega
     
     override func viewDidAppear(animated: Bool) {
         // Set game info
-        let gameID = (currentPlayer?.objectForKey("currentGame")?.objectId)! as String
+        let gameID = (self.currentPlayer?.objectForKey("currentGame")?.objectId)! as String
         var query = PFQuery(className:"Game")
         query.getObjectInBackgroundWithId(gameID) {
             (game: PFObject?, error: NSError?) -> Void in
@@ -50,13 +50,14 @@ class CurrentGameViewController: UIViewController, UIImagePickerControllerDelega
             }
         }
         // Set player info
-        playerID = (currentPlayer?.objectForKey("player")?.objectId)!
+        self.playerID = (self.currentPlayer?.objectForKey("player")?.objectId)!
         query = PFQuery(className:"Player")
-        query.getObjectInBackgroundWithId(playerID!) {
+        query.getObjectInBackgroundWithId(self.playerID!) {
             (player: PFObject?, error: NSError?) -> Void in
             if error == nil && player != nil {
                 self.currentPlayer = player
                 let target = player?.objectForKey("targetName")
+                print(target)
                 let dead = player?.objectForKey("isKilled") as! Bool
                 if target == nil {
                     self.nameOfTargetLabel.text = "This game has not started yet."
@@ -113,7 +114,6 @@ class CurrentGameViewController: UIViewController, UIImagePickerControllerDelega
                 performKill(imageFile!)
             }
         }
-        
     }
     
     func performKill(imageFile: PFFile) {

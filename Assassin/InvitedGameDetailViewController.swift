@@ -134,14 +134,13 @@ class InvitedGameDetailViewController: UIViewController, UITableViewDataSource, 
                         self.game!.setValue(true, forKey: "activeGame")
                         self.game!.saveInBackgroundWithBlock {
                             (success, error) -> Void in
-                            if (success) { 
-                                // Notify player that game was created
+                            if (success) {
+                                self.dismissViewControllerAnimated(true, completion: nil)
+                                self.performSegueWithIdentifier("GoToNewGame", sender: nil)
+                                
                                 let alertView = UIAlertController(title: "You have been added to the game!", message: "", preferredStyle: .Alert)
                                 alertView.addAction(UIAlertAction(title: "Okay!", style: .Default, handler: nil))
                                 self.presentViewController(alertView, animated: true, completion: nil)
-                                
-                                self.dismissViewControllerAnimated(true, completion: nil)
-                                self.performSegueWithIdentifier("GoToNewGame", sender: nil)
                             }
                             else {
                                 print("Error saving game: \(error)")
@@ -196,6 +195,27 @@ class InvitedGameDetailViewController: UIViewController, UITableViewDataSource, 
     }
     
     @IBAction func touchDeclineButton(sender: AnyObject) {
+        let player = PFUser.currentUser()
+        let playerID = player!.objectForKey("FacebookID")!
+        game!.objectForKey("invitedPlayers")?.removeObject(playerID)
+        game!.saveInBackgroundWithBlock {
+            (success, error) -> Void in
+            if (success) {
+                if self.game!.objectForKey("invitedPlayers")?.count == 0 {
+                    if self.game!.objectForKey("activePlayers")?.count > 1 {
+                        self.assignTargets(self.game!)
+                        self.game!.setValue(true, forKey: "activeGame")
+                        self.game!.saveInBackground()
+                    }
+                }
+            } else {
+                print("Error saving game: \(error)")
+            }
+        }
+        self.dismissViewControllerAnimated(true, completion: nil)
+        let alertView = UIAlertController(title: "You've declined the game", message: "", preferredStyle: .Alert)
+        alertView.addAction(UIAlertAction(title: "Okay", style: .Default, handler: nil))
+        self.presentViewController(alertView, animated: true, completion: nil)
     }
     
     @IBAction func touchCancelButton(sender: AnyObject) {
