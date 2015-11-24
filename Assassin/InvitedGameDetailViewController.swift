@@ -201,12 +201,10 @@ class InvitedGameDetailViewController: UIViewController, UITableViewDataSource, 
         game!.saveInBackgroundWithBlock {
             (success, error) -> Void in
             if (success) {
-                if self.game!.objectForKey("invitedPlayers")?.count == 0 {
-                    if self.game!.objectForKey("activePlayers")?.count > 1 {
+                if self.game!.objectForKey("invitedPlayers")?.count == 0 && self.game!.objectForKey("activePlayers")?.count > 1 {
                         self.assignTargets(self.game!)
                         self.game!.setValue(true, forKey: "activeGame")
                         self.game!.saveInBackground()
-                    }
                 }
             } else {
                 print("Error saving game: \(error)")

@@ -9,7 +9,7 @@
 import UIKit
 import MobileCoreServices
 
-class CurrentGameViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class CurrentGameViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, ConfirmKillViewControllerDelegate {
     
     @IBOutlet weak var nameOfGameLabel: UILabel!
     @IBOutlet weak var nameOfTargetLabel: UILabel!
@@ -21,59 +21,110 @@ class CurrentGameViewController: UIViewController, UIImagePickerControllerDelega
     var currentGame:PFObject?
     var currentGameKillMethod:String?
     var newMedia:Bool?
+    var justKilled: Bool?
+    var killPhoto: UIImage?
+    var justWon: Bool?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        currentPlayer = PFUser.currentUser()
+//        currentPlayer = PFUser.currentUser()
         nameOfGameLabel.text = ""
         nameOfTargetLabel.text = ""
         lblKillMethod.text = ""
+        justKilled = false
+        justWon = false
+        newMedia = false
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
+    override func viewWillAppear(animated: Bool) {
+        if justKilled == true {
+            let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc = storyboard.instantiateViewControllerWithIdentifier("ConfirmKillViewController") as! ConfirmKillViewController
+            vc.killPhoto = killPhoto
+            vc.currentPlayer = currentPlayer
+            vc.currentGame = currentGame
+            vc.delegate = self
+            vc.modalPresentationStyle = UIModalPresentationStyle.Popover
+            presentViewController(vc, animated: true, completion:nil)
+            justKilled = false
+        }
+        
+        if justWon == true {
+            let alert:UIAlertView = UIAlertView()
+            alert.title = "YOU WON!!!"
+            alert.message = "Congratulations! You are the best!"
+            alert.addButtonWithTitle("Sweet thanks.")
+            alert.show()
+        }
+    }
+    
     override func viewDidAppear(animated: Bool) {
-        // Set game info
-        let gameID = (self.currentPlayer?.objectForKey("currentGame")?.objectId)! as String
-        var query = PFQuery(className:"Game")
-        query.getObjectInBackgroundWithId(gameID) {
-            (game: PFObject?, error: NSError?) -> Void in
-            if error == nil && game != nil {
-                self.currentGame = game
-                let currentGameName = self.currentGame!.objectForKey("Name") as? String
-                self.nameOfGameLabel.text = currentGameName
-                self.currentGameKillMethod = game?.objectForKey("killMethod") as? String
-            } else {
-                print("Game not found: \(error)")
-            }
-        }
-        // Set player info
-        self.playerID = (self.currentPlayer?.objectForKey("player")?.objectId)!
-        query = PFQuery(className:"Player")
-        query.getObjectInBackgroundWithId(self.playerID!) {
-            (player: PFObject?, error: NSError?) -> Void in
-            if error == nil && player != nil {
-                self.currentPlayer = player
-                let target = player?.objectForKey("targetName")
-                print(target)
-                let dead = player?.objectForKey("isKilled") as! Bool
-                if target == nil {
-                    self.nameOfTargetLabel.text = "This game has not started yet."
-                    self.lblKillMethod.text = "<Randomizing kill methods...>"
-                    self.killButton.enabled = false
-                } else if dead {
-                    self.youDied()
-                } else {
-                    self.nameOfTargetLabel.text = target as? String
+        if justWon == true {
+            performSegueWithIdentifier("backToDashboard", sender: nil)
+        } else {
+            // Set game info
+            let gameID = (PFUser.currentUser()!.objectForKey("currentGame")?.objectId)! as String
+            var query = PFQuery(className:"Game")
+            query.getObjectInBackgroundWithId(gameID) {
+                (game: PFObject?, error: NSError?) -> Void in
+                if error == nil && game != nil {
+                    self.currentGame = game
+                    let currentGameName = self.currentGame!.objectForKey("Name") as? String
+                    self.nameOfGameLabel.text = currentGameName
+                    self.currentGameKillMethod = game?.objectForKey("killMethod") as? String
                     self.lblKillMethod.text = "Kill Method: " + self.currentGameKillMethod!
-                    self.killButton.enabled = true
+                    if self.currentGame?.objectForKey("invitedPlayers")?.count == 0 && self.currentGame!.objectForKey("activePlayers")?.count == 1 {
+                        PFUser.currentUser()!.removeObjectForKey("player")
+                        PFUser.currentUser()!.removeObjectForKey("currentGame")
+                        PFUser.currentUser()!.saveInBackgroundWithBlock {
+                            (success, error) -> Void in
+                            if (success) {
+                                self.performSegueWithIdentifier("backToDashboard", sender: nil)
+                                let alertView = UIAlertController(title: "No opponents", message: "Every one else declined their invites. Try starting a new game!", preferredStyle: .Alert)
+                                alertView.addAction(UIAlertAction(title: "Okay!", style: .Default, handler: nil))
+                                self.presentViewController(alertView, animated: true, completion: nil)
+                            } else {
+                                print(error)
+                            }
+                        }
+                    }
+                } else {
+                    print("Game not found: \(error)")
                 }
-            } else {
-                print("Player not found: \(error)")
+            }
+            // Set player info
+            self.playerID = (PFUser.currentUser()!.objectForKey("player")?.objectId)!
+            query = PFQuery(className:"Player")
+            query.getObjectInBackgroundWithId(self.playerID!) {
+                (player: PFObject?, error: NSError?) -> Void in
+                if error == nil && player != nil {
+                    self.currentPlayer = player
+                    let target = player?.objectForKey("targetName")
+                    let dead = player?.objectForKey("isKilled") as! Bool
+                    if target == nil {
+                        self.nameOfTargetLabel.text = "This game has not started yet."
+                        self.lblKillMethod.text = "<Randomizing kill methods...>"
+                        self.killButton.enabled = false
+                    } else if dead {
+                        self.youDied()
+                    } else {
+                        self.nameOfTargetLabel.text = target as? String
+                        self.killButton.enabled = true
+                    }
+                } else {
+                    print("Player not found: \(error)")
+                }
             }
         }
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        justWon = false;
+        justKilled = false;
     }
     
     @IBAction func didTouchKillButton(sender: AnyObject) {
@@ -104,74 +155,9 @@ class CurrentGameViewController: UIViewController, UIImagePickerControllerDelega
             
             // Save the image we just created.
             if (newMedia == true) {
-                // The third argument is the 'completion method selector' - a function that is called when the save
-                // operation is done. The method name has an objective-c signature.
                 UIImageWriteToSavedPhotosAlbum(image, self, "image:didFinishSavingWithError:contextInfo:", nil)
-                
-                //let imageData = UIImagePNGRepresentation(image)
-                let imageData = UIImageJPEGRepresentation(image, 1.0)
-                let imageFile = PFFile(name:"image.jpeg", data:imageData!)
-                performKill(imageFile!)
-            }
-        }
-    }
-    
-    func performKill(imageFile: PFFile) {
-        // Get target
-        let targetID = currentPlayer?.objectForKey("target") as! String
-        let query = PFQuery(className:"Player")
-        query.getObjectInBackgroundWithId(targetID) {
-            (target: PFObject?, error: NSError?) -> Void in
-            if error == nil && target != nil {
-                
-                // Tell the target that they have been killed
-                target?.setValue(true, forKey: "isKilled")
-                target?.setObject(imageFile, forKey: "killPhoto")
-                target?.saveInBackground()
-                
-                // Get new target
-                let newTargetID = target?.objectForKey("target") as! String
-                
-                // Check if loop has circled back to self
-                if newTargetID == self.currentPlayer?.objectId {
-                    
-                    // If so, you won
-                    let alertView = UIAlertController(title: "YOU WON!!!", message: "Congratulations! You are the best!", preferredStyle: .Alert)
-                    alertView.addAction(UIAlertAction(title: ":)", style: .Default, handler: nil))
-                    self.presentViewController(alertView, animated: true, completion: nil)
-                    
-                    //delete player
-                    //self.currentPlayer?.deleteInBackground()
-                    
-                    // Remove pointers to the game and add win
-                    PFUser.currentUser()?.removeObjectForKey("player")
-                    PFUser.currentUser()?.removeObjectForKey("currentGame")
-                    PFUser.currentUser()?.incrementKey("numWins")
-                    PFUser.currentUser()?.incrementKey("numKills")
-                    PFUser.currentUser()?.saveInBackground()
-                    
-                    self.currentGame?.incrementKey("numPlayers", byAmount: -1)
-                    self.currentGame?.saveInBackground()
-                    
-                    // Go back to dashboard
-                    self.performSegueWithIdentifier("backToDashboard", sender: nil)
-                    
-                } else {
-                    // If the new target is not yourself
-                    let newTargetName = target?.objectForKey("targetName")
-                    self.currentPlayer?.setValue(newTargetID, forKey: "target")
-                    self.currentPlayer?.setObject(newTargetName!, forKey: "targetName")
-                    self.nameOfTargetLabel.text = newTargetName as? String
-                    self.currentPlayer?.saveInBackgroundWithBlock{
-                        (success, error) -> Void in
-                        if (success) {
-                        } else {
-                            print (error)
-                        }
-                    }
-                }
-            } else {
-                print(error)
+                justKilled = true
+                killPhoto = image
             }
         }
     }
@@ -206,10 +192,6 @@ class CurrentGameViewController: UIViewController, UIImagePickerControllerDelega
         PFUser.currentUser()?.removeObjectForKey("currentGame")
         PFUser.currentUser()?.saveInBackground()
         
-        //**CHANGE** No longer deleting here. Waiting to delete player objects until end of game now.
-        //delete player object
-        //currentPlayer?.deleteInBackground()
-        
         //check if the game is over and needs to be deleted
         self.currentGame?.incrementKey("numPlayers", byAmount: -1)
         self.currentGame?.saveInBackgroundWithBlock {
@@ -235,5 +217,10 @@ class CurrentGameViewController: UIViewController, UIImagePickerControllerDelega
         
         //go back to dashboard
         performSegueWithIdentifier("backToDashboard", sender: nil)
+    }
+    
+    //to conform to ConfirmKillViewControllerDelegate protocol
+    func setJustWon(){
+        justWon = true
     }
 }

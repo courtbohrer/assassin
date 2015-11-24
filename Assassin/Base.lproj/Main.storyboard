@@ -75,6 +75,52 @@
             </objects>
             <point key="canvasLocation" x="-589" y="304"/>
         </scene>
+        <!--Confirm Kill View Controller-->
+        <scene sceneID="g6W-da-RX8">
+            <objects>
+                <viewController storyboardIdentifier="ConfirmKillViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Ywg-te-dK1" customClass="ConfirmKillViewController" customModule="Assassin" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="uIB-ia-xeb"/>
+                        <viewControllerLayoutGuide type="bottom" id="TNz-Bp-zjE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="uNJ-me-miO">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rYH-1w-k9y">
+                                <rect key="frame" x="160" y="109" width="280" height="267"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Confirm Kill" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hqo-jg-opN">
+                                <rect key="frame" x="202" y="46" width="197" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SS9-Ux-NLY">
+                                <rect key="frame" x="160" y="503" width="90" height="30"/>
+                                <state key="normal" title="Confirm"/>
+                                <connections>
+                                    <action selector="didTouchConfirmKill:" destination="Ywg-te-dK1" eventType="touchUpInside" id="EmB-iB-SJ0"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SJh-xU-kge">
+                                <rect key="frame" x="359" y="503" width="81" height="30"/>
+                                <state key="normal" title="Deny"/>
+                                <connections>
+                                    <action selector="didTouchDenyKill:" destination="Ywg-te-dK1" eventType="touchUpInside" id="VRh-3v-kqC"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="killImageView" destination="rYH-1w-k9y" id="5I3-U8-xuX"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dRB-n1-LAJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="90" y="304"/>
+        </scene>
         <!--New Game View Controller-->
         <scene sceneID="elF-aB-D7g">
             <objects>
