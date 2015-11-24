@@ -6,12 +6,18 @@
 //  Copyright © 2015 Courtney Bohrer. All rights reserved.
 //
 
+protocol InviteDetailDelegate {
+    func goToNewGame()
+}
+
+
 class InvitedGameDetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     var gameID = ""
     var game:PFObject?
     var invitedPlayers = [String]()
     let reuseIdentifier = "OtherInvitedPlayersCell"
+    var delegate:InviteDetailDelegate?
     
     @IBOutlet weak var labelInvitedGameName: UILabel!
     @IBOutlet weak var labelWhoInvitedYou: UILabel!
@@ -135,14 +141,9 @@ class InvitedGameDetailViewController: UIViewController, UITableViewDataSource, 
                         self.game!.saveInBackgroundWithBlock {
                             (success, error) -> Void in
                             if (success) {
+                                self.delegate?.goToNewGame()
                                 self.dismissViewControllerAnimated(true, completion: nil)
-                                self.performSegueWithIdentifier("GoToNewGame", sender: nil)
-                                
-                                let alertView = UIAlertController(title: "You have been added to the game!", message: "", preferredStyle: .Alert)
-                                alertView.addAction(UIAlertAction(title: "Okay!", style: .Default, handler: nil))
-                                self.presentViewController(alertView, animated: true, completion: nil)
-                            }
-                            else {
+                            } else {
                                 print("Error saving game: \(error)")
                             }
                         }

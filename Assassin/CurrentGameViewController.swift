@@ -269,7 +269,7 @@ class CurrentGameViewController: UIViewController, UIImagePickerControllerDelega
                 }
             })
         } else if player.objectForKey("target") == nil {
-            cell.statusLabel.text = "Accepted Invite"
+            cell.statusLabel.text = "Pending"
             let FBID = player.valueForKey("FacebookID")
             var facebookProfileUrl = NSURL(string: "http://graph.facebook.com/\(FBID)/picture?type=large")
             
