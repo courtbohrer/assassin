@@ -39,6 +39,9 @@
 		466DD8501BD4A12E00445880 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 466DD84F1BD4A12E00445880 /* libsqlite3.tbd */; };
 		466DD85A1BD4C1E200445880 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 466DD8581BD4C1E200445880 /* FBSDKCoreKit.framework */; };
 		466DD85B1BD4C1E200445880 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 466DD8591BD4C1E200445880 /* FBSDKLoginKit.framework */; };
+		46CFEBFE1C0507620072467E /* courtProfPic.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 46CFEBFD1C0507620072467E /* courtProfPic.jpg */; };
+		46CFEC001C0507700072467E /* jacobProfPic.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 46CFEBFF1C0507700072467E /* jacobProfPic.jpg */; };
+		46CFEC021C05077B0072467E /* quanProfPic.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 46CFEC011C05077B0072467E /* quanProfPic.jpg */; };
 		591950E01C03EC5A008D9DA2 /* ConfirmKillViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 591950DF1C03EC5A008D9DA2 /* ConfirmKillViewController.swift */; };
 		591950E21C040486008D9DA2 /* PlayerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 591950E11C040486008D9DA2 /* PlayerTableViewCell.swift */; };
 		5944A7801BD5942700929323 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5944A77F1BD5942700929323 /* Game.swift */; };
@@ -103,6 +106,9 @@
 		466DD8581BD4C1E200445880 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		466DD8591BD4C1E200445880 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		466DD85C1BD4CB9C00445880 /* BridgingHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BridgingHeader.h; sourceTree = "<group>"; };
+		46CFEBFD1C0507620072467E /* courtProfPic.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = courtProfPic.jpg; sourceTree = "<group>"; };
+		46CFEBFF1C0507700072467E /* jacobProfPic.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = jacobProfPic.jpg; sourceTree = "<group>"; };
+		46CFEC011C05077B0072467E /* quanProfPic.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = quanProfPic.jpg; sourceTree = "<group>"; };
 		591950DF1C03EC5A008D9DA2 /* ConfirmKillViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmKillViewController.swift; sourceTree = "<group>"; };
 		591950E11C040486008D9DA2 /* PlayerTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerTableViewCell.swift; sourceTree = "<group>"; };
 		5944A77F1BD5942700929323 /* Game.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
@@ -195,6 +201,9 @@
 				466DD85C1BD4CB9C00445880 /* BridgingHeader.h */,
 				4614ABDF1BD4947D00516477 /* Info.plist */,
 				4614ABDA1BD4947D00516477 /* Assets.xcassets */,
+				46CFEBFF1C0507700072467E /* jacobProfPic.jpg */,
+				46CFEBFD1C0507620072467E /* courtProfPic.jpg */,
+				46CFEC011C05077B0072467E /* quanProfPic.jpg */,
 				4614ABDC1BD4947D00516477 /* LaunchScreen.storyboard */,
 			);
 			path = Assassin;
@@ -349,8 +358,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				4614ABDE1BD4947D00516477 /* LaunchScreen.storyboard in Resources */,
+				46CFEC001C0507700072467E /* jacobProfPic.jpg in Resources */,
 				4614ABDB1BD4947D00516477 /* Assets.xcassets in Resources */,
 				4614ABD91BD4947D00516477 /* Main.storyboard in Resources */,
+				46CFEC021C05077B0072467E /* quanProfPic.jpg in Resources */,
+				46CFEBFE1C0507620072467E /* courtProfPic.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

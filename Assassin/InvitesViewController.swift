@@ -30,6 +30,14 @@ class InvitesViewController: UIViewController, UITableViewDataSource, UITableVie
         super.didReceiveMemoryWarning()
     }
     
+    override func viewWillAppear(animated: Bool) {
+        if justAcceptedInvite == true {
+            let alertView = UIAlertController(title: "You have been added to the game!", message: "", preferredStyle: .Alert)
+            alertView.addAction(UIAlertAction(title: "Okay!", style: .Default, handler: nil))
+            self.presentViewController(alertView, animated: true, completion: nil)
+        }
+    }
+    
     override func viewDidAppear(animated: Bool) {
         if justAcceptedInvite == true {
             self.performSegueWithIdentifier("showNewGame", sender: nil)
@@ -127,9 +135,6 @@ class InvitesViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func goToNewGame() {
-        let alertView = UIAlertController(title: "You have been added to the game!", message: "", preferredStyle: .Alert)
-        alertView.addAction(UIAlertAction(title: "Okay!", style: .Default, handler: nil))
-        self.presentViewController(alertView, animated: true, completion: nil)
         justAcceptedInvite = true;
     }
     
