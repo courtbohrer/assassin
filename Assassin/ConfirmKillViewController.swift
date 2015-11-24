@@ -23,6 +23,7 @@ class ConfirmKillViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = UIColor(patternImage: UIImage(named: "background")!)
         killImageView.image = killPhoto
         
         // Do any additional setup after loading the view.

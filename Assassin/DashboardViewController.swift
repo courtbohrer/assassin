@@ -14,6 +14,7 @@ class DashboardViewController: UIViewController, UIPopoverControllerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = UIColor(patternImage: UIImage(named: "background")!)
     }
 
     override func didReceiveMemoryWarning() {
@@ -34,9 +35,9 @@ class DashboardViewController: UIViewController, UIPopoverControllerDelegate {
                 (objects: [PFObject]?, error: NSError?) -> Void in
                 if error == nil {
                     if objects?.isEmpty == false {
-                        self.invitesButton.backgroundColor = UIColor.redColor()
+                        self.invitesButton.setImage(UIImage(named: "alertTrue"), forState: UIControlState.Normal)
                     } else {
-                       self.invitesButton.backgroundColor = UIColor.whiteColor()
+                       self.invitesButton.setImage(UIImage(named: "alertFalse"), forState: UIControlState.Normal)
                     }
                 } else {
                     print("Error querying game's invited players: \(error)")
@@ -48,6 +49,7 @@ class DashboardViewController: UIViewController, UIPopoverControllerDelegate {
     @IBAction func didTouchLogoutButton(sender: AnyObject) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewControllerWithIdentifier("LoginViewController") as! LoginViewController
+        PFUser.logOut()
         vc.modalPresentationStyle = UIModalPresentationStyle.Popover
         presentViewController(vc, animated: true, completion:nil)
     }

@@ -16,6 +16,7 @@ class NewGameViewController: UIViewController, UITextFieldDelegate, UITableViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = UIColor(patternImage: UIImage(named: "background")!)
         gameNameTextField.delegate = self
         self.friendPickerTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
     }
@@ -35,6 +36,8 @@ class NewGameViewController: UIViewController, UITextFieldDelegate, UITableViewD
         let friend = friends[index]
         
         cell.textLabel!.text = friend.objectForKey("name")! as? String
+        cell.textLabel!.font = UIFont(name: "AvenirNext-Bold", size: 16)
+        cell.backgroundColor = UIColor(red:1.00, green:0.19, blue:0.19, alpha: 1.0)
         cell.accessoryType = .None
         
         return cell

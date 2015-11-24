@@ -18,6 +18,7 @@ class LoginViewController: UIViewController, UIPopoverPresentationControllerDele
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = UIColor(patternImage: UIImage(named: "background")!)
     }
     
     override func didReceiveMemoryWarning() {
@@ -25,13 +26,7 @@ class LoginViewController: UIViewController, UIPopoverPresentationControllerDele
     }
     
     override func viewDidAppear(animated: Bool) {
-        if(PFUser.currentUser() == nil){
-            logoutButton.hidden = true;
-            loginButton.hidden = false;
-        } else {
-            loginButton.hidden = true;
-            logoutButton.hidden = false;
-        }
+
     }
     
     @IBAction func didTouchLogout(sender: AnyObject) {

@@ -25,7 +25,7 @@ class InvitedGameDetailViewController: UIViewController, UITableViewDataSource, 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.view.backgroundColor = UIColor(patternImage: UIImage(named: "background")!)
         tableViewTheOtherInvitedPlayers.registerClass(UITableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
         tableViewTheOtherInvitedPlayers.delegate = self
         tableViewTheOtherInvitedPlayers.dataSource = self

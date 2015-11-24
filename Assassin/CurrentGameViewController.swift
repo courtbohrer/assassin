@@ -30,6 +30,9 @@ class CurrentGameViewController: UIViewController, UIImagePickerControllerDelega
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = UIColor(patternImage: UIImage(named: "background")!)
+        self.playerTable.backgroundColor = UIColor(red:1.00, green:0.19, blue:0.19, alpha: 1.0)
+
         nameOfGameLabel.text = ""
         nameOfTargetLabel.text = ""
         lblKillMethod.text = ""
@@ -93,7 +96,7 @@ class CurrentGameViewController: UIViewController, UIImagePickerControllerDelega
                     let currentGameName = self.currentGame!.objectForKey("Name") as? String
                     self.nameOfGameLabel.text = currentGameName
                     self.currentGameKillMethod = game?.objectForKey("killMethod") as? String
-                    self.lblKillMethod.text = "Kill Method: " + self.currentGameKillMethod!
+                    self.lblKillMethod.text = self.currentGameKillMethod!
                     if self.currentGame?.objectForKey("invitedPlayers")?.count == 0 && self.currentGame!.objectForKey("activePlayers")?.count == 1 {
                         PFUser.currentUser()!.removeObjectForKey("player")
                         PFUser.currentUser()!.removeObjectForKey("currentGame")
@@ -259,6 +262,7 @@ class CurrentGameViewController: UIViewController, UIImagePickerControllerDelega
         
         //set name
         cell.nameLabel!.text = player.objectForKey("Name")! as? String
+        cell.textLabel!.font = UIFont(name: "AvenirNext-Bold", size: 16)
         //set status
         if player.valueForKey("isKilled") as? Bool == true {
             cell.statusLabel.text = "Terminated"

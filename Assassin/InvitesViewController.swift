@@ -18,11 +18,12 @@ class InvitesViewController: UIViewController, UITableViewDataSource, UITableVie
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        
+        self.view.backgroundColor = UIColor(patternImage: UIImage(named: "background")!)
         self.invitesTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
         self.invitesTableView.delegate = self
         self.invitesTableView.dataSource = self
         justAcceptedInvite = false
+        self.invitesTableView.backgroundColor = UIColor(red:1.00, green:0.19, blue:0.19, alpha: 1.0)
     }
     
     override func didReceiveMemoryWarning() {
@@ -59,6 +60,9 @@ class InvitesViewController: UIViewController, UITableViewDataSource, UITableVie
         let game = self.invitedGames[indexPath.row]
         
         cell.textLabel!.text = game.objectForKey("Name")! as? String
+        cell.textLabel!.font = UIFont(name: "AvenirNext-Bold", size: 16)
+        cell.backgroundColor = UIColor(red:1.00, green:0.19, blue:0.19, alpha: 1.0)
+
         
         return cell
     }
