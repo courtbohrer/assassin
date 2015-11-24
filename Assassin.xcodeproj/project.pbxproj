@@ -40,6 +40,7 @@
 		466DD85A1BD4C1E200445880 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 466DD8581BD4C1E200445880 /* FBSDKCoreKit.framework */; };
 		466DD85B1BD4C1E200445880 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 466DD8591BD4C1E200445880 /* FBSDKLoginKit.framework */; };
 		591950E01C03EC5A008D9DA2 /* ConfirmKillViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 591950DF1C03EC5A008D9DA2 /* ConfirmKillViewController.swift */; };
+		591950E21C040486008D9DA2 /* PlayerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 591950E11C040486008D9DA2 /* PlayerTableViewCell.swift */; };
 		5944A7801BD5942700929323 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5944A77F1BD5942700929323 /* Game.swift */; };
 		595F1E011C0124DF00D23F80 /* InvitedGameDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 595F1E001C0124DF00D23F80 /* InvitedGameDetailViewController.swift */; };
 		59B8A2561BFEF9290095E0ED /* KillMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59B8A2551BFEF9290095E0ED /* KillMethods.swift */; };
@@ -103,6 +104,7 @@
 		466DD8591BD4C1E200445880 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		466DD85C1BD4CB9C00445880 /* BridgingHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BridgingHeader.h; sourceTree = "<group>"; };
 		591950DF1C03EC5A008D9DA2 /* ConfirmKillViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmKillViewController.swift; sourceTree = "<group>"; };
+		591950E11C040486008D9DA2 /* PlayerTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerTableViewCell.swift; sourceTree = "<group>"; };
 		5944A77F1BD5942700929323 /* Game.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		595F1E001C0124DF00D23F80 /* InvitedGameDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvitedGameDetailViewController.swift; sourceTree = "<group>"; };
 		59B8A2551BFEF9290095E0ED /* KillMethods.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KillMethods.swift; sourceTree = "<group>"; };
@@ -182,6 +184,7 @@
 				466DD8241BD4980E00445880 /* LoginViewController.swift */,
 				466DD8261BD498A700445880 /* DashboardViewController.swift */,
 				466DD8281BD498C500445880 /* CurrentGameViewController.swift */,
+				591950E11C040486008D9DA2 /* PlayerTableViewCell.swift */,
 				591950DF1C03EC5A008D9DA2 /* ConfirmKillViewController.swift */,
 				466DD82C1BD49B3600445880 /* InvitesViewController.swift */,
 				595F1E001C0124DF00D23F80 /* InvitedGameDetailViewController.swift */,
@@ -378,6 +381,7 @@
 				591950E01C03EC5A008D9DA2 /* ConfirmKillViewController.swift in Sources */,
 				466DD8251BD4980E00445880 /* LoginViewController.swift in Sources */,
 				4614ABD61BD4947D00516477 /* ViewController.swift in Sources */,
+				591950E21C040486008D9DA2 /* PlayerTableViewCell.swift in Sources */,
 				4614ABD41BD4947D00516477 /* AppDelegate.swift in Sources */,
 				460BB8E41BD565BC007BE170 /* Player.swift in Sources */,
 				466DD82D1BD49B3600445880 /* InvitesViewController.swift in Sources */,

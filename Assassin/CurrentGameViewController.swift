@@ -8,13 +8,15 @@
 
 import UIKit
 import MobileCoreServices
+import ParseFacebookUtilsV4
 
-class CurrentGameViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, ConfirmKillViewControllerDelegate {
+class CurrentGameViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, ConfirmKillViewControllerDelegate, UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet weak var nameOfGameLabel: UILabel!
     @IBOutlet weak var nameOfTargetLabel: UILabel!
     @IBOutlet weak var lblKillMethod: UILabel!
     @IBOutlet weak var killButton: UIButton!
+    @IBOutlet weak var playerTable: UITableView!
     
     var currentPlayer:PFObject?
     var playerID:String?
@@ -24,16 +26,18 @@ class CurrentGameViewController: UIViewController, UIImagePickerControllerDelega
     var justKilled: Bool?
     var killPhoto: UIImage?
     var justWon: Bool?
+    var activePlayerObjects = [PFObject]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        currentPlayer = PFUser.currentUser()
         nameOfGameLabel.text = ""
         nameOfTargetLabel.text = ""
         lblKillMethod.text = ""
         justKilled = false
         justWon = false
         newMedia = false
+        self.playerTable.delegate = self
+        self.playerTable.dataSource = self
     }
     
     override func didReceiveMemoryWarning() {
@@ -52,7 +56,6 @@ class CurrentGameViewController: UIViewController, UIImagePickerControllerDelega
             presentViewController(vc, animated: true, completion:nil)
             justKilled = false
         }
-        
         if justWon == true {
             let alert:UIAlertView = UIAlertView()
             alert.title = "YOU WON!!!"
@@ -73,6 +76,20 @@ class CurrentGameViewController: UIViewController, UIImagePickerControllerDelega
                 (game: PFObject?, error: NSError?) -> Void in
                 if error == nil && game != nil {
                     self.currentGame = game
+                    let activePlayers = game!.objectForKey("activePlayers") as! [PFObject]
+                    for player in activePlayers {
+                        let playerObjectID = player.valueForKey("objectId") as! String
+                        let query = PFQuery(className:"Player")
+                        query.getObjectInBackgroundWithId(playerObjectID) {
+                            (player: PFObject?, error: NSError?) -> Void in
+                            if error == nil && player != nil {
+                                self.activePlayerObjects.append(player!)
+                            } else {
+                                print("Error: \(error!) \(error!.userInfo)")
+                            }
+                            self.playerTable.reloadData()
+                        }
+                    }
                     let currentGameName = self.currentGame!.objectForKey("Name") as? String
                     self.nameOfGameLabel.text = currentGameName
                     self.currentGameKillMethod = game?.objectForKey("killMethod") as? String
@@ -223,4 +240,55 @@ class CurrentGameViewController: UIViewController, UIImagePickerControllerDelega
     func setJustWon(){
         justWon = true
     }
+    
+    //table methods
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        //        if self.playerArr == nil {
+        //            return 0
+        //        } else{
+        //            return (self.playerArr?.count)!
+        //        }
+        return activePlayerObjects.count
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
+        let cell = tableView.dequeueReusableCellWithIdentifier("PlayerTableViewCell", forIndexPath: indexPath) as! PlayerTableViewCell
+        let player = activePlayerObjects[indexPath.row]
+        
+        //set name
+        cell.nameLabel!.text = player.objectForKey("Name")! as? String
+        //set status
+        if player.valueForKey("isKilled") as? Bool == true {
+            cell.statusLabel.text = "Terminated"
+            let killPhoto = player.objectForKey("killPhoto")
+            killPhoto!.getDataInBackgroundWithBlock({ (data, error) -> Void in
+                if let data = data where error == nil{
+                    cell.playerImage.image = UIImage(data: data)
+                }
+            })
+        } else if player.objectForKey("target") == nil {
+            cell.statusLabel.text = "Accepted Invite"
+            let FBID = player.valueForKey("FacebookID")
+            var facebookProfileUrl = NSURL(string: "http://graph.facebook.com/\(FBID)/picture?type=large")
+            
+            if let data = NSData(contentsOfURL: facebookProfileUrl!) {
+                cell.playerImage.image = UIImage(data: data)
+            }
+        } else {
+            cell.statusLabel.text = "Active"
+        }
+        
+        
+        
+        return cell
+    }
+    
+    //    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    //
+    //
+    //    }
+    
+    
 }
