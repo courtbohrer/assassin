@@ -270,25 +270,29 @@ class CurrentGameViewController: UIViewController, UIImagePickerControllerDelega
             })
         } else if player.objectForKey("target") == nil {
             cell.statusLabel.text = "Pending"
-            let FBID = player.valueForKey("FacebookID")
-            var facebookProfileUrl = NSURL(string: "http://graph.facebook.com/\(FBID)/picture?type=large")
-            
-            if let data = NSData(contentsOfURL: facebookProfileUrl!) {
-                cell.playerImage.image = UIImage(data: data)
-            }
+//            let FBID = player.valueForKey("FacebookID")
+//            let facebookProfileUrl = NSURL(string: "http://graph.facebook.com/\(FBID)/picture?type=large")
+//            
+//            if let data = NSData(contentsOfURL: facebookProfileUrl!) {
+//                cell.playerImage.image = UIImage(data: data)
+//            }
         } else {
             cell.statusLabel.text = "Active"
+            let FBID = player.valueForKey("FacebookID")
+            if FBID?.isEqual("10206927200006193") == true{
+                cell.playerImage.image = UIImage(named: "courtProfPic.jpg")
+            } else if FBID?.isEqual("10207814271894104") == true{
+                cell.playerImage.image = UIImage(named: "jacobProfPic.jpg")
+            }else {
+                cell.playerImage.image = UIImage(named: "quanProfPic.jpg")
+            }
         }
         
         
         
         return cell
     }
-    
-    //    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-    //
-    //
-    //    }
+
     
     
 }
