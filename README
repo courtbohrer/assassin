@@ -23,3 +23,13 @@ Create Game Screen - Quan
 Current Game Screen - Quan and Courtney
 Confirm Kill Screen - Courtney
 UI - Jacob
+
+Differences:
+
+All of the ideas that we had for our final were admittedly long shots. Some of the earlier steps proved to be a little more challenging and we felt that it was more beneficial to the app to enhance those essential features instead of implementing these new ones for the following reasons. 
+
+GPS bombs:
+These weren’t really feasible because of the accuracy of GPS. Also, if a user turns off their GPS they would be invincible.
+
+Adding a prize pool:
+Dealing with money is pretty difficult. We were thinking there might be some kind of API we could use, like Paypal, but we weren’t able to find a suitable option.
