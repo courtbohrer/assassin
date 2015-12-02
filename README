@@ -3,20 +3,23 @@ Functionality:
 
 -Can log in through Facebook
 -Can create game and invite friends
--Once all players have accepted invitation, game is created with randomized targets.
--When a player is killed, they are removed from game. 
--Once player, is last remaining they have won and game is over.
-
-
+   -Friends must be Facebook friends who also have the app downloaded
+-Once all players have responded to invitation, game is created with randomized targets and kill method
+   -Unless all players deny invitation, in which case game is terminated
+-Current game screen displays all players, their “game status” and a picture.
+   -The picture is their profile picture while active
+   -When they are terminated, the picture is the one taken to kill them
+-To kill player, take a picture and confirm kill. 
+-Once player, is last remaining they have won and game is over
+   -When the game is over, all player and game objects are deleted
 
 Contributions:
 
-Initial Repository Setup (Files, storyboard, ect) - Courtney
 Initial Parse Integration - Courtney
 Facebook Integration, Saving Users to Parse - Courtney 
 Initializing Game (Randomizing and assigning targets) - Quan and Courtney
-Saving Games and Player Objects to Parse - Quan and Courtney
-Cleaning out and Deleting Objects from Parse at End of Game - Quan and Courtney
+Invites Screen and Detail - Quan
 Create Game Screen - Quan
-UI Contributions - Jacob
-
+Current Game Screen - Quan and Courtney
+Confirm Kill Screen - Courtney
+UI - Jacob
