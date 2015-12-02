@@ -57,7 +57,7 @@ class LoginViewController: UIViewController, UIPopoverPresentationControllerDele
     
     func returnUserData() {
         let currentUser = PFUser.currentUser()
-        let graphRequest : FBSDKGraphRequest = FBSDKGraphRequest(graphPath: "me", parameters: nil)
+        let graphRequest : FBSDKGraphRequest = FBSDKGraphRequest(graphPath:"me", parameters:["fields": "id, picture, name"])
         graphRequest.startWithCompletionHandler({ (connection, result, error) -> Void in
             if ((error) != nil) {
                 print("Error requesting Facebook data: \(error)")
@@ -66,8 +66,36 @@ class LoginViewController: UIViewController, UIPopoverPresentationControllerDele
                 if ((currentUser) != nil) {
                     currentUser?.setValue(result.valueForKey("name"), forKey: "Name")
                     currentUser?.setValue(result.objectForKey("id"), forKey: "FacebookID")
+                    let urlStr = result.objectForKey("picture")?.objectForKey("data")?.objectForKey("url") as! String
+                    let url = NSURL(string: urlStr)
+                    let request = NSURLRequest(URL: url!)
+                    var response:NSURLResponse?
+                    do {
+                        let data = try NSURLConnection.sendSynchronousRequest(request, returningResponse: &response)
+                        let file:PFFile = PFFile(data: data as! NSData)!
+                        PFUser.currentUser()?.setObject(file, forKey: "profPicData")
+                        PFUser.currentUser()?.saveInBackground()
+                        
+                    }
+                    catch(let e){
+                        print(e)
+                    }
+                    
+                    
+                    //currentUser?.setValue(url, forKey: "profPicURL")
+                    currentUser?.saveInBackground()
+                    
+//                    let accessToken = FBSDKAccessToken.currentAccessToken().tokenString
+                    
+//                    let userID = result.valueForKey("id") as! NSString
+//                    let facebookProfileUrl = "http://graph.facebook.com/\(userID)/picture?type=large"
+//                    let data = NSData(contentsOfURL: facebookProfileUrl)
+//                    currentUser?.setObject(data, forKey: "profPicData")
+//                    let pic = result.objectForKey("picture")
+//                    let profPic = PFFile(name:"image.jpeg", data: pic as! NSData)
+//                    currentUser?.setObject(profPic!, forKey: "profPic")
                 }
-                currentUser?.saveInBackground()
+                
             }
         })
     }

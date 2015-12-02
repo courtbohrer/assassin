@@ -91,7 +91,8 @@ class NewGameViewController: UIViewController, UITextFieldDelegate, UITableViewD
         let playerObject = Player(playerID: playerID as! String, targetID: "")
         playerObject.setValue(currentUser?.objectForKey("Name"), forKey: "Name")
         playerObject.setValue(playerID, forKey: "FacebookID")
-        playerObject.setValue(false, forKey: "isKilled");
+        playerObject.setValue(false, forKey: "isKilled")
+        playerObject.setObject((currentUser?.objectForKey("profPicData"))!, forKey: "profPicData")
         playerObject.saveInBackgroundWithBlock {
             (success, error) -> Void in
             if (success) {

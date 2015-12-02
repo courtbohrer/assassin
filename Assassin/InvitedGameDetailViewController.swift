@@ -116,6 +116,7 @@ class InvitedGameDetailViewController: UIViewController, UITableViewDataSource, 
             playerObject.setValue(playerID, forKey: "FacebookID")
             playerObject.setValue(player?.objectForKey("Name"), forKey: "Name")
             playerObject.setValue(false, forKey: "isKilled");
+            playerObject.setObject((PFUser.currentUser()!.objectForKey("profPicData"))!, forKey: "profPicData")
             playerObject.saveInBackground()
             
             // Add player object

@@ -80,6 +80,7 @@ class CurrentGameViewController: UIViewController, UIImagePickerControllerDelega
                 if error == nil && game != nil {
                     self.currentGame = game
                     let activePlayers = game!.objectForKey("activePlayers") as! [PFObject]
+                    self.activePlayerObjects = []
                     for player in activePlayers {
                         let playerObjectID = player.valueForKey("objectId") as! String
                         let query = PFQuery(className:"Player")
@@ -175,24 +176,9 @@ class CurrentGameViewController: UIViewController, UIImagePickerControllerDelega
             
             // Save the image we just created.
             if (newMedia == true) {
-                UIImageWriteToSavedPhotosAlbum(image, self, "image:didFinishSavingWithError:contextInfo:", nil)
                 justKilled = true
                 killPhoto = image
             }
-        }
-    }
-    
-    func image(image: UIImage, didFinishSavingWithError error: NSErrorPointer, contextInfo:UnsafePointer<Void>) {
-        if error != nil {
-            let alert = UIAlertController(title: "Save Failed", message: "Failed to save image", preferredStyle: UIAlertControllerStyle.Alert)
-            let cancelAction = UIAlertAction(title: "OK", style: .Cancel, handler: nil)
-            alert.addAction(cancelAction)
-            self.presentViewController(alert, animated: true, completion: nil)
-        } else {
-            let alert = UIAlertController(title: "Image Saved", message: "Image Saved", preferredStyle: UIAlertControllerStyle.Alert)
-            let okAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
-            alert.addAction(okAction)
-            self.presentViewController(alert, animated: true, completion: nil)
         }
     }
     
@@ -247,11 +233,6 @@ class CurrentGameViewController: UIViewController, UIImagePickerControllerDelega
     //table methods
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        //        if self.playerArr == nil {
-        //            return 0
-        //        } else{
-        //            return (self.playerArr?.count)!
-        //        }
         return activePlayerObjects.count
     }
     
@@ -274,25 +255,27 @@ class CurrentGameViewController: UIViewController, UIImagePickerControllerDelega
             })
         } else if player.objectForKey("target") == nil {
             cell.statusLabel.text = "Pending"
-//            let FBID = player.valueForKey("FacebookID")
-//            let facebookProfileUrl = NSURL(string: "http://graph.facebook.com/\(FBID)/picture?type=large")
-//            
-//            if let data = NSData(contentsOfURL: facebookProfileUrl!) {
-//                cell.playerImage.image = UIImage(data: data)
-//            }
+            //set picture
+            if let file:PFFile = player.objectForKey("profPicData") as! PFFile{
+                file.getDataInBackgroundWithBlock { (imageData: NSData?, error: NSError?) -> Void in
+                    
+                    if let imageData = imageData where error == nil{
+                        cell.playerImage.image = UIImage(data: imageData)
+                    }
+                }
+            }
         } else {
             cell.statusLabel.text = "Active"
-            let FBID = player.valueForKey("FacebookID")
-            if FBID?.isEqual("10206927200006193") == true{
-                cell.playerImage.image = UIImage(named: "courtProfPic.jpg")
-            } else if FBID?.isEqual("10207814271894104") == true{
-                cell.playerImage.image = UIImage(named: "jacobProfPic.jpg")
-            }else {
-                cell.playerImage.image = UIImage(named: "quanProfPic.jpg")
+            //set picture
+            if let file:PFFile = player.objectForKey("profPicData") as! PFFile{
+                file.getDataInBackgroundWithBlock { (imageData: NSData?, error: NSError?) -> Void in
+                    
+                    if let imageData = imageData where error == nil{
+                        cell.playerImage.image = UIImage(data: imageData)
+                    }
+                }
             }
         }
-        
-        
         
         return cell
     }
